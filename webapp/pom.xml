@@ -12,7 +12,6 @@
     <artifactId>catalyst-webapp</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>sample</module>
         <module>mysample</module>
     </modules>
 
