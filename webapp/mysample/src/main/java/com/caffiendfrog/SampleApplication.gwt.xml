@@ -1,0 +1,11 @@
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.8.0//EN"
+        "http://gwtproject.org/doctype/2.8.0/gwt-module.dtd">
+
+<module rename-to="SampleApp">
+    <!-- Inherit the core Web Toolkit stuff.                  -->
+    <inherits name='com.google.gwt.user.User'/>
+
+    <entry-point class="com.caffiendfrog.client.SampleApp"/>
+
+    <servlet path="/SampleAppService" class="com.caffiendfrog.server.com.caffiendfrog.SampleAppServiceImpl"/>
+</module>
