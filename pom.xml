@@ -9,6 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>webapp</module>
+        <module>common-services</module>
     </modules>
     <name>Catalyst</name>
     <packaging>pom</packaging>
@@ -33,9 +34,11 @@
 
         <!-- database -->
         <mysql-connector-version>5.1.44</mysql-connector-version>
+        <hibernate-version>5.2.10.Final</hibernate-version>
 
         <!-- unit testing -->
         <junit-version>4.12</junit-version>
+
     </properties>
 
     <build>
@@ -128,7 +131,7 @@
                 <version>${log4j-version}</version>
             </dependency>
 
-            <!-- configuration management -->
+            <!-- configuration & logging management -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-configuration2</artifactId>
@@ -140,6 +143,13 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql-connector-version}</version>
+            </dependency>
+
+            <!-- hibernate -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${hibernate-version}</version>
             </dependency>
 
             <!-- unit testing -->
@@ -162,6 +172,10 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.commons</groupId>-->
+            <!--<artifactId>commons-configuration2</artifactId>-->
+        <!--</dependency>-->
 
         <!-- unit testing -->
         <dependency>

@@ -12,6 +12,11 @@
     <artifactId>my-sample</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>org.catalyst</groupId>
+            <artifactId>catalyst-common-services</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <!-- GWT -->
         <dependency>
             <groupId>com.google.gwt</groupId>
