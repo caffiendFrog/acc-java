@@ -8,15 +8,17 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-public class HibernateProvider {
-    private final static Logger logger = LogManager.getLogger(HibernateProvider.class);
-    private final static HibernateProvider INSTANCE = new HibernateProvider();
+import java.util.List;
+
+public class SampleHibernateProvider {
+    private final static Logger logger = LogManager.getLogger(SampleHibernateProvider.class);
+    private final static SampleHibernateProvider INSTANCE = new SampleHibernateProvider();
 
     private SessionFactory sessionFactory;
 
-    public static HibernateProvider getInstance() { return INSTANCE; }
+    public static SampleHibernateProvider getInstance() { return INSTANCE; }
 
-    public HibernateProvider() {
+    public SampleHibernateProvider() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure()
                 .build();
@@ -33,6 +35,29 @@ public class HibernateProvider {
 
     public Session getSession() {
         return sessionFactory.openSession();
+    }
+
+    /**
+     * Saves & commits the list of entries
+     * @param entries
+     */
+    public <T> void save(List<T> entries) {
+        final Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        for ( T entry : entries ) {
+            session.save(entry);
+        }
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    public <T> List<T> getEntries() {
+        final Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        List result = session.createQuery("from SanityEvent").list();
+        session.getTransaction().commit();
+        session.close();
+        return result;
     }
 
 }

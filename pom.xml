@@ -34,6 +34,7 @@
 
         <!-- database -->
         <mysql-connector-version>5.1.44</mysql-connector-version>
+        <h2-version>1.4.194</h2-version>
         <hibernate-version>5.2.10.Final</hibernate-version>
 
         <!-- unit testing -->
@@ -151,6 +152,11 @@
                 <artifactId>hibernate-core</artifactId>
                 <version>${hibernate-version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2-version}</version>
+            </dependency>
 
             <!-- unit testing -->
             <dependency>
@@ -172,10 +178,6 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.apache.commons</groupId>-->
-            <!--<artifactId>commons-configuration2</artifactId>-->
-        <!--</dependency>-->
 
         <!-- unit testing -->
         <dependency>

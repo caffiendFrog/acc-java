@@ -1,23 +1,34 @@
-package org.catalyst.sample.hibernate;
+package org.catalyst.services.hibernate;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 import java.util.Date;
 
-public class Event {
+/**
+ * A basic pojo used for testing the hibernate provider class
+ */
+@Entity
+@Table(name="testEvent")
+public class TestEvent {
     private Long id;
 
     private String title;
     private Date date;
 
-    public Event() {
+    public TestEvent() {
         // this form used by Hibernate
     }
 
-    public Event(String title, Date date) {
+    public TestEvent(String title, Date date) {
         // for application use, to create new events
         this.title = title;
         this.date = date;
     }
 
+    @Id
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy="increment")
     public Long getId() {
         return id;
     }
@@ -26,6 +37,8 @@ public class Event {
         this.id = id;
     }
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="EVENT_DATE")
     public Date getDate() {
         return date;
     }

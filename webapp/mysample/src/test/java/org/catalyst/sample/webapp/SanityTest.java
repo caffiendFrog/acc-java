@@ -1,17 +1,18 @@
 package org.catalyst.sample.webapp;
 
 import junit.framework.TestCase;
-import org.catalyst.sample.hibernate.Event;
-import org.catalyst.sample.hibernate.HibernateProvider;
+import org.catalyst.sample.hibernate.SampleHibernateProvider;
+import org.catalyst.services.hibernate.HibernateProvider;
 import org.hibernate.Session;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class SanityTest extends TestCase {
     @SuppressWarnings("unchecked")
     public void testSanity() {
-        HibernateProvider hibernateProvider = HibernateProvider.getInstance();
+        SampleHibernateProvider hibernateProvider = SampleHibernateProvider.getInstance();
         Session session = hibernateProvider.getSession();
         session.beginTransaction();
         session.save( new SanityEvent( "Our very first event!", new Date() ) );
@@ -28,5 +29,19 @@ public class SanityTest extends TestCase {
         }
         session.getTransaction().commit();
         session.close();
+    }
+
+    public void testProvider() {
+        List<SanityEvent> events = new ArrayList<>();
+        events.add(new SanityEvent( "Our very SECOND event!", new Date() ) );
+        events.add(new SanityEvent( "A follow up THIRD event", new Date() ) );
+        HibernateProvider.getInstance().save(events);
+
+        List<SanityEvent> results = HibernateProvider.getInstance().getEntries(SanityEvent.class);
+        System.out.println("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=");
+        for (SanityEvent event : results) {
+            System.out.println( "SanityEvent (" + event.getDate() + ") : " + event.getTitle() );
+        }
+        System.out.println("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=");
     }
 }

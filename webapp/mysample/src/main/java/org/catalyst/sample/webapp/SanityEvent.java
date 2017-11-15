@@ -1,14 +1,14 @@
 package org.catalyst.sample.webapp;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.catalyst.services.BaseEntry;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table ( name = "EVENTS" )
-public class SanityEvent {
-    private Long id;
+public class SanityEvent extends BaseEntry {
+//    private Long id;
 
     private String title;
     private Date date;
@@ -23,16 +23,16 @@ public class SanityEvent {
         this.date = date;
     }
 
-    @Id
-    @GeneratedValue(generator="increment")
-    @GenericGenerator(name="increment", strategy="increment")
-    public Long getId() {
-        return id;
-    }
-
-    private void setId(Long id) {
-        this.id = id;
-    }
+//    @Id
+//    @GeneratedValue(generator="increment")
+//    @GenericGenerator(name="increment", strategy="increment")
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    private void setId(Long id) {
+//        this.id = id;
+//    }
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="EVENT_DATE")
