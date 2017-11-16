@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
  * Tests the hibernate provider using an in-memory H2 database (no particular reason for using H2 besides that is what
  * the tutorials used)
  */
-public class HibernateProviderTest extends TestCase {
-    private final static Logger logger = LogManager.getLogger(HibernateProviderTest.class);
+public class HibernateManagerTest extends TestCase {
+    private final static Logger logger = LogManager.getLogger(HibernateManagerTest.class);
 
     private final TestEvent eventA = new TestEvent("Here's a test event", new Date());
     private final TestEvent eventB = new TestEvent("Some more test event", new Date());
@@ -22,8 +22,8 @@ public class HibernateProviderTest extends TestCase {
     private final List<TestEvent> events = Arrays.asList(eventA, eventB);
 
     public void testSaveAndGet() {
-        HibernateProvider.getInstance().saveOrUpdate(events);
-        List<TestEvent> retrievedEvents = HibernateProvider.getInstance().getAll(TestEvent.class);
+        HibernateManager.getInstance().saveOrUpdate(events);
+        List<TestEvent> retrievedEvents = HibernateManager.getInstance().getAll(TestEvent.class);
         List<String> retrievedEventTitles = retrievedEvents.stream().map(TestEvent::getTitle).collect(Collectors.toList());
         assertEquals(events.size(), retrievedEvents.size());
         assertTrue(retrievedEventTitles.contains(eventA.getTitle()));
@@ -32,9 +32,9 @@ public class HibernateProviderTest extends TestCase {
     }
 
     public void testQuery() {
-        HibernateProvider.getInstance().saveOrUpdate(events);
+        HibernateManager.getInstance().saveOrUpdate(events);
         final String queryString = "TestEvent.title like '%more%'";
-        List<TestEvent> results = HibernateProvider.getInstance().query(TestEvent.class, queryString);
+        List<TestEvent> results = HibernateManager.getInstance().query(TestEvent.class, queryString);
         assertEquals(1, results.size());
     }
 }

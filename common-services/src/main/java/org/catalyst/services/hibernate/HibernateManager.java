@@ -8,18 +8,20 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class HibernateProvider {
-    private final static Logger logger = LogManager.getLogger(HibernateProvider.class);
+public class HibernateManager {
+    private final static Logger logger = LogManager.getLogger(HibernateManager.class);
     private final static boolean DEBUG = logger.isDebugEnabled();
-    private final static HibernateProvider INSTANCE = new HibernateProvider();
+    private final static HibernateManager INSTANCE = new HibernateManager();
 
     private SessionFactory sessionFactory;
+    private List<Session> activeSessions = new ArrayList<>();
 
-    public static HibernateProvider getInstance() { return INSTANCE; }
+    public static HibernateManager getInstance() { return INSTANCE; }
 
-    public HibernateProvider() {
+    public HibernateManager() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure()
                 .build();
@@ -66,4 +68,16 @@ public class HibernateProvider {
         return result;
     }
 
+    public Session startTransaction() {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        activeSessions.add(session);
+        return session;
+    }
+
+    public void endTransaction(Session session) {
+        session.getTransaction().commit();
+        session.close();
+        activeSessions.remove(session);
+    }
 }

@@ -43,7 +43,7 @@ public class Detail {
         this.active = false;
     }
 
-    public void activte() {
+    public void activate() {
         this.active = true;
     }
 
@@ -56,6 +56,14 @@ public class Detail {
     }
 
     public void setName(String name) {
+        if (name == null) {
+            throw new NullPointerException("Cannot set entity name to null.");
+        }
+
+        if (name.isEmpty()) {
+            logger.warn("Trying to change entity name from ["+this.name+"] to ["+name+"]. This is likely to cause" +
+                    " errors downstream.");
+        }
         this.name = name;
     }
 
