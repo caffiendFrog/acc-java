@@ -10,6 +10,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import java.util.List;
 
+@Deprecated
 public class SampleHibernateProvider {
     private final static Logger logger = LogManager.getLogger(SampleHibernateProvider.class);
     private final static SampleHibernateProvider INSTANCE = new SampleHibernateProvider();

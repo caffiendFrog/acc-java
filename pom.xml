@@ -10,6 +10,7 @@
     <modules>
         <module>webapp</module>
         <module>common-services</module>
+        <module>courses</module>
     </modules>
     <name>Catalyst</name>
     <packaging>pom</packaging>

@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
+@Deprecated
 public class BaseEntry {
     private Long id;
 

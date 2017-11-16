@@ -9,6 +9,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+// probably don't ned this anymore?
+@Deprecated
 public class MySqlProvider {
     private static final MySqlProvider INSTANCE = new MySqlProvider();
     private static final Logger logger = LogManager.getLogger(MySqlProvider.class);

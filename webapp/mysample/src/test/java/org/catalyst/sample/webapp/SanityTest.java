@@ -35,9 +35,9 @@ public class SanityTest extends TestCase {
         List<SanityEvent> events = new ArrayList<>();
         events.add(new SanityEvent( "Our very SECOND event!", new Date() ) );
         events.add(new SanityEvent( "A follow up THIRD event", new Date() ) );
-        HibernateProvider.getInstance().save(events);
+        HibernateProvider.getInstance().saveOrUpdate(events);
 
-        List<SanityEvent> results = HibernateProvider.getInstance().getEntries(SanityEvent.class);
+        List<SanityEvent> results = HibernateProvider.getInstance().getAll(SanityEvent.class);
         System.out.println("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=");
         for (SanityEvent event : results) {
             System.out.println( "SanityEvent (" + event.getDate() + ") : " + event.getTitle() );
