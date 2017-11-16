@@ -11,6 +11,7 @@
         <module>webapp</module>
         <module>common-services</module>
         <module>courses</module>
+        <module>common-gwt</module>
     </modules>
     <name>Catalyst</name>
     <packaging>pom</packaging>

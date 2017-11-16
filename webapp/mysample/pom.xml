@@ -15,7 +15,7 @@
         <dependency>
             <groupId>org.catalyst</groupId>
             <artifactId>catalyst-common-services</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <!-- GWT -->
         <dependency>

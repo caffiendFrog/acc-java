@@ -117,3 +117,5 @@ buildNumber.properties
 # Log files (if you are creating logs in debug mode, uncomment this)
 # *.logs
 /*/*.iml
+/webapp/*/target/
+/webapp/webapp.iml
