@@ -1,9 +1,6 @@
 package org.catalyst.courses.entities;
 
 import junit.framework.TestCase;
-import org.catalyst.services.hibernate.HibernateManager;
-
-import java.util.List;
 
 public class CompetencyTest extends TestCase {
     private final String bio_competency_keyword = "Biofelinatics";
@@ -44,9 +41,9 @@ public class CompetencyTest extends TestCase {
     /**
      * Tests that we are able to query for and update entities in the database
      */
-    public void testUpdate() {
-        List<Competency> competencies = HibernateManager.getInstance().getAll(Competency.class);
-        assertEquals(2, competencies.size());
-    }
+//    public void testUpdate() {
+//        List<Competency> competencies = HibernateManager.getInstance().getAll(Competency.class);
+//        assertEquals(2, competencies.size());
+//    }
 
 }
