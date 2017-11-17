@@ -78,7 +78,7 @@ public class InstitutionDetailTest extends TestCase {
         InstitutionDetail result = HibernateManager.getInstance().getEntity(InstitutionDetail.class, bmc.getId());
         // should be 'logically' equal
         assertEquals(bmc, result);
-        // should be 'physically' equal
+        // should not be 'physically' equal
         assertFalse(bmc == result);
     }
 

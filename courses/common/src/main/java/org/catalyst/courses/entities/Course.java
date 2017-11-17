@@ -68,6 +68,8 @@ public class Course {
         return competencyDetailId;
     }
 
+    public int getId() { return courseId; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -12,31 +12,21 @@ import java.util.Date;
 public class CourseDetailTest extends TestCase {
     private final static Logger logger = LogManager.getLogger(CourseDetailTest.class);
 
-    private final InstitutionDetail hku = new InstitutionDetail(InstitutionDetailTest.hkuName, InstitutionDetailTest.hkuAbbreviation,
-                                                    InstitutionDetailTest.hkuIsSponsor);
-    private final InstitutionDetail bmc = new InstitutionDetail(InstitutionDetailTest.bmcName, InstitutionDetailTest.bmcAbbreviation);
-    private final CompetencyDetail bioCompetency = new CompetencyDetail(CompetencyDetailTest.bioName);
-    private final CompetencyDetail chemCompetency = new CompetencyDetail(CompetencyDetailTest.chemNote);
-    private final AudienceDetail faculty = new AudienceDetail(AudienceDetailTest.facultyName);
-    private final AudienceDetail postDoc = new AudienceDetail(AudienceDetailTest.postDocName);
-    private final TranslationDetail t1 = new TranslationDetail(TranslationDetailTest.t1Name, TranslationDetailTest.t1Abbreviation);
-    private final TranslationDetail t2 = new TranslationDetail(TranslationDetailTest.t2Name, TranslationDetailTest.t2Abbreviation);
-
-    private final String caffeineCourseName = "Complex union of caffeine and felines.";
-    private final String rohtoCourseName = "Partiality confounded Rohto-effect";
-    private final String caffeineEmail = "caffeine@coff.ee";
-    private final String caffeineUrl = "www.coff.ee";
-    private final Date caffeineDate = new Date();
-    private final String caffeineDescription = "Happy Monday morning wake up juice. How does it help the furballs?";
-    private final String caffeineDateInfo = "Every other Fritzday";
-    private final String caffeineHours = "2 hours";
-    private final String caffeineMaxEnroll = "10 hoomans";
-    private final String caffeineSearchBlob = "blobby blob blob boo";
-    private final Date caffeineSortDate = new Date();
-    private final String rohtoDescription = "Cure for red eyes and staring at monitors until the eyeballs bleed dry.";
-    private final String rohtoHours = "14.5 total";
-    private final String rohtoDateInfo = "Occurs annually (Fall)";
-    private final String rohtoEmail = "horton.hears@who.oo";
+    protected static final String caffeineCourseName = "Complex union of caffeine and felines.";
+    protected static final String rohtoCourseName = "Partiality confounded Rohto-effect";
+    protected static final String caffeineEmail = "caffeine@coff.ee";
+    protected static final String caffeineUrl = "www.coff.ee";
+    protected static final Date caffeineDate = new Date();
+    protected static final String caffeineDescription = "Happy Monday morning wake up juice. How does it help the furballs?";
+    protected static final String caffeineDateInfo = "Every other Fritzday";
+    protected static final String caffeineHours = "2 hours";
+    protected static final String caffeineMaxEnroll = "10 hoomans";
+    protected static final String caffeineSearchBlob = "blobby blob blob boo";
+    protected static final Date caffeineSortDate = new Date();
+    protected static final String rohtoDescription = "Cure for red eyes and staring at monitors until the eyeballs bleed dry.";
+    protected static final String rohtoHours = "14.5 total";
+    protected static final String rohtoDateInfo = "Occurs annually (Fall)";
+    protected static final String rohtoEmail = "horton.hears@who.oo";
 
 
     private CourseDetail caffeineCourse;
@@ -66,7 +56,7 @@ public class CourseDetailTest extends TestCase {
         assertTrue(rohtoCourse.hasWebcast());
 
         // set and check optional fields
-        setOptionalFields();
+        setOptionalFields(caffeineCourse, rohtoCourse);
 
         assertEquals(caffeineUrl, caffeineCourse.getContactUrl());
         assertEquals(caffeineDate, caffeineCourse.getDate());
@@ -84,7 +74,7 @@ public class CourseDetailTest extends TestCase {
      * Check that course specific fields are being saved and retrieved correctly
      */
     public void testCRUD() {
-        setOptionalFields();
+        setOptionalFields(caffeineCourse, rohtoCourse);
 
         HibernateManager.getInstance().saveOrUpdate(Arrays.asList(caffeineCourse, rohtoCourse));
         CourseDetail result = HibernateManager.getInstance().getEntity(CourseDetail.class, rohtoCourse.getId());
@@ -115,23 +105,19 @@ public class CourseDetailTest extends TestCase {
         assertTrue(sdf.format(caffeineSortDate).equals(sdf.format(result.getSortDate())));
     }
 
-//    public void testRelationships() {
-//        // create & save course to get course id
-//        setOptionalFields();
-//        HibernateManager.getInstance().saveOrUpdate(Arrays.asList(caffeineCourse, rohtoCourse));
-//
-//        // create relationships
-//        int courseId = caffeineCourse.getId();
-//        hku.setCourseId(courseId);
-//        bioCompetency.setCourseId(courseId);
-//        chemCompetency.setCourseId(courseId);
-//        t2.setCourseId(courseId);
-//        postDoc.setCourseId(courseId);
-//
-//        HibernateManager.getInstance().saveOrUpdate(Arrays.asList(hku, bioCompetency, chemCompetency, t2, postDoc));
-//    }
+    public void testEquality() {
+        setOptionalFields(caffeineCourse, rohtoCourse);
+        HibernateManager.getInstance().saveOrUpdate(Arrays.asList(caffeineCourse, rohtoCourse));
+        CourseDetail result = HibernateManager.getInstance().getEntity(CourseDetail.class, caffeineCourse.getId());
 
-    private void setOptionalFields() {
+        // should be 'logically' equal
+        assertEquals(caffeineCourse, result);
+
+        // should not be 'physically' equal
+        assertFalse(caffeineCourse == result);
+    }
+
+    protected static void setOptionalFields(final CourseDetail caffeineCourse, final CourseDetail rohtoCourse) {
         caffeineCourse.setContactEmail(caffeineEmail);
         caffeineCourse.setContactUrl(caffeineUrl);
         caffeineCourse.setDate(caffeineDate);
