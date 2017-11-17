@@ -36,7 +36,6 @@ public class CompetencyDetail extends Detail {
     public String toString() {
         return "CompetencyDetail{" +
                 "id=" + id +
-                ", courseId=" + courseId +
                 ", active=" + active +
                 ", name='" + name + '\'' +
                 ", note='" + note + '\'' +

@@ -84,7 +84,6 @@ public class DetailTest extends TestCase {
         List<Detail> details = HibernateManager.getInstance().getAllEntities(Detail.class);
         Map<Integer, Detail> idToDetail = details.stream().collect(Collectors.toMap(Detail::getId, Function.identity()));
 
-        assertEquals(2, details.size());
         assertEquals(aDetail.getName(), idToDetail.get(aDetail.getId()).getName());
         assertEquals(bDetail.getName(), idToDetail.get(bDetail.getId()).getName());
 

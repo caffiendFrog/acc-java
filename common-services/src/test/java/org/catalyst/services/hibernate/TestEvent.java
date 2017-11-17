@@ -54,4 +54,24 @@ public class TestEvent {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TestEvent testEvent = (TestEvent) o;
+
+        if (id != null ? !id.equals(testEvent.id) : testEvent.id != null) return false;
+        if (title != null ? !title.equals(testEvent.title) : testEvent.title != null) return false;
+        return date != null ? date.equals(testEvent.date) : testEvent.date == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        return result;
+    }
 }

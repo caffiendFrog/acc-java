@@ -69,7 +69,6 @@ public class InstitutionDetail extends TranslationDetail {
     public String toString() {
         return "InstitutionDetail{" +
                 "id='" + id + '\'' +
-                ", courseId=" + courseId +
                 ", abbreviation='" + abbreviation + '\'' +
                 ", sponsor=" + sponsor +
                 ", active=" + active +

@@ -88,7 +88,7 @@ public class HibernateManager {
         return session;
     }
 
-    public void endTransaction(Session session) {
+    public void endTransaction(final Session session) {
         session.getTransaction().commit();
         session.close();
         activeSessions.remove(session);

@@ -65,7 +65,6 @@ public class TranslationDetail extends  Detail {
     public String toString() {
         return "TranslationDetail{" +
                 "id='" + id + '\'' +
-                ", courseId=" + courseId +
                 ", abbreviation='" + abbreviation + '\'' +
                 ", active=" + active +
                 ", name='" + name + '\'' +

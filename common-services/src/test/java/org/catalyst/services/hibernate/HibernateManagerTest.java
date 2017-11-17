@@ -3,7 +3,11 @@ package org.catalyst.services.hibernate;
 import junit.framework.TestCase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -16,9 +20,10 @@ import java.util.stream.Collectors;
 public class HibernateManagerTest extends TestCase {
     private final static Logger logger = LogManager.getLogger(HibernateManagerTest.class);
 
-    private final TestEvent eventA = new TestEvent("Here's a test event", new Date());
+    private final TestEvent eventA = new TestEvent("Good-bye crewl werld", new Date());
     private final TestEvent eventB = new TestEvent("Some more test event", new Date());
-    private final TestEvent eventC = new TestEvent("Good-bye crewl werld", new Date());
+    private final TestEvent eventC = new TestEvent("Here's a test event", new Date());
+
     private final List<TestEvent> events = Arrays.asList(eventA, eventB);
 
     public void testSaveAndGet() {
@@ -33,8 +38,17 @@ public class HibernateManagerTest extends TestCase {
 
     public void testQuery() {
         HibernateManager.getInstance().saveOrUpdate(events);
-        final String queryString = "TestEvent.title like '%more%'";
-        List<TestEvent> results = HibernateManager.getInstance().query(TestEvent.class, queryString);
+        Session session = HibernateManager.getInstance().startTransaction();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<TestEvent> criteria = builder.createQuery(TestEvent.class);
+        Root<TestEvent> root = criteria.from(TestEvent.class);
+
+        criteria.select( root );
+        criteria.where( builder.like( root.get( TestEvent_.title ), "%crewl%" ) );
+        List<TestEvent> results = session.createQuery( criteria ).getResultList();
         assertEquals(1, results.size());
+        assertEquals(eventA, results.get(0));
+
+        HibernateManager.getInstance().endTransaction(session);
     }
 }
