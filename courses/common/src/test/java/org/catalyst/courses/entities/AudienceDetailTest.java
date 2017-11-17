@@ -7,20 +7,20 @@ import org.catalyst.services.hibernate.HibernateManager;
 
 import java.util.Arrays;
 
-public class AudienceTest extends TestCase {
-    private final static Logger logger = LogManager.getLogger(AudienceTest.class);
+public class AudienceDetailTest extends TestCase {
+    private final static Logger logger = LogManager.getLogger(AudienceDetailTest.class);
 
-    // protected static so we can reference these values in CourseTest
+    // protected static so we can reference these values in CourseDetailTest
     protected final static String facultyName = "Faculty";
     protected final static String postDocName = "Post Doc";
     protected final static String facultyNote = "New faculty in the past 5 years only.";
 
-    private Audience faculty;
-    private Audience postDoc;
+    private AudienceDetail faculty;
+    private AudienceDetail postDoc;
 
     public void setUp() {
-        faculty = new Audience(facultyName);
-        postDoc = new Audience(postDocName);
+        faculty = new AudienceDetail(facultyName);
+        postDoc = new AudienceDetail(postDocName);
     }
 
     /**
@@ -49,10 +49,16 @@ public class AudienceTest extends TestCase {
         // Create/Save audience
         HibernateManager.getInstance().saveOrUpdate(Arrays.asList(faculty, postDoc));
 
-        Audience result = HibernateManager.getInstance().getEntity(Audience.class, faculty.getId());
+        AudienceDetail result = HibernateManager.getInstance().getEntity(AudienceDetail.class, faculty.getId());
         assertNull(result.getAbbreviation());
+    }
 
-        // check the equals override works
+    public void testEquality() {
+        HibernateManager.getInstance().saveOrUpdate(Arrays.asList(faculty, postDoc));
+        AudienceDetail result = HibernateManager.getInstance().getEntity(AudienceDetail.class, faculty.getId());
+        // should be 'logically' equal
         assertEquals(faculty, result);
+        // should not be 'physically' equal
+        assertFalse( faculty == result );
     }
 }

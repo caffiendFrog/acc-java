@@ -15,9 +15,6 @@ public class Detail {
     @Column(name = "detail_id")
     protected int id;
 
-    @Column(name = "courseId")
-    protected Integer courseId;
-
     @Column(name = "isActive")
     protected boolean active;
 
@@ -75,14 +72,6 @@ public class Detail {
         this.note = note;
     }
 
-    public Integer getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
-    }
-
     public String getAbbreviation() {
         return abbreviation;
     }
@@ -102,7 +91,6 @@ public class Detail {
     public Detail deepCopy() {
         Detail copy = new Detail(this.name);
         copy.id = this.id;
-        copy.courseId = this.courseId;
         copy.active = this.active;
         copy.abbreviation = this.abbreviation;
         copy.note = this.note;
@@ -117,7 +105,6 @@ public class Detail {
         Detail detail = (Detail) o;
 
         if (id != detail.id) return false;
-        if (courseId != detail.courseId) return false;
         if (active != detail.active) return false;
         if (!name.equals(detail.name)) return false;
         return note != null ? note.equals(detail.note) : detail.note == null;
@@ -126,7 +113,6 @@ public class Detail {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + courseId;
         result = 31 * result + (active ? 1 : 0);
         result = 31 * result + name.hashCode();
         result = 31 * result + (note != null ? note.hashCode() : 0);

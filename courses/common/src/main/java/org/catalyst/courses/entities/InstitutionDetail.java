@@ -12,15 +12,15 @@ import javax.persistence.Table;
  * Extending translation because translation already has checks for requiring abbreviations. Just adding to that
  */
 @Entity
-@Table(name = "institution")
+@Table(name = "institutionDetail")
 @PrimaryKeyJoinColumn(name="detail_id")
-public class Institution extends Translation {
-    private final static Logger logger = LogManager.getLogger(Institution.class);
+public class InstitutionDetail extends TranslationDetail {
+    private final static Logger logger = LogManager.getLogger(InstitutionDetail.class);
 
     @Column(name = "sponsor")
     private boolean sponsor;
 
-    public Institution() {
+    public InstitutionDetail() {
         //no-arg constructor for hibernate
     }
 
@@ -29,12 +29,12 @@ public class Institution extends Translation {
      * @param institutionName
      * @param abbreviation
      */
-    public Institution(String institutionName, String abbreviation) {
+    public InstitutionDetail(String institutionName, String abbreviation) {
         super(institutionName, abbreviation);
         this.sponsor = true;
     }
 
-    public Institution(String institutionName, String abbreviation, boolean isSponsor) {
+    public InstitutionDetail(String institutionName, String abbreviation, boolean isSponsor) {
         super(institutionName, abbreviation);
         this.sponsor = isSponsor;
     }
@@ -51,7 +51,7 @@ public class Institution extends Translation {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
 
-        Institution that = (Institution) o;
+        InstitutionDetail that = (InstitutionDetail) o;
 
         if (sponsor != that.sponsor) return false;
         return abbreviation.equals(that.abbreviation);
@@ -67,7 +67,7 @@ public class Institution extends Translation {
 
     @Override
     public String toString() {
-        return "Institution{" +
+        return "InstitutionDetail{" +
                 "id='" + id + '\'' +
                 ", courseId=" + courseId +
                 ", abbreviation='" + abbreviation + '\'' +

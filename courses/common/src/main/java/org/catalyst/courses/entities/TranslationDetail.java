@@ -8,12 +8,12 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="translation")
+@Table(name="translationDetail")
 @PrimaryKeyJoinColumn(name="detail_id")
-public class Translation extends  Detail {
-    private static Logger logger = LogManager.getLogger(Translation.class);
+public class TranslationDetail extends  Detail {
+    private static Logger logger = LogManager.getLogger(TranslationDetail.class);
 
-    public Translation() {
+    public TranslationDetail() {
         // no-arg constructor for hibernate
     }
 
@@ -21,7 +21,7 @@ public class Translation extends  Detail {
      * Creates a new translation and sets it to active
      * @param translationName
      */
-    public Translation(String translationName, String abbreviation) {
+    public TranslationDetail(String translationName, String abbreviation) {
         super(translationName);
         this.abbreviation = abbreviation;
     }
@@ -49,7 +49,7 @@ public class Translation extends  Detail {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
 
-        Translation that = (Translation) o;
+        TranslationDetail that = (TranslationDetail) o;
 
         return abbreviation.equals(that.abbreviation);
     }
@@ -63,7 +63,7 @@ public class Translation extends  Detail {
 
     @Override
     public String toString() {
-        return "Translation{" +
+        return "TranslationDetail{" +
                 "id='" + id + '\'' +
                 ", courseId=" + courseId +
                 ", abbreviation='" + abbreviation + '\'' +

@@ -8,12 +8,12 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "competency")
+@Table(name = "competencyDetail")
 @PrimaryKeyJoinColumn(name="detail_id")
-public class Competency extends Detail {
-    private final static Logger logger = LogManager.getLogger(Competency.class);
+public class CompetencyDetail extends Detail {
+    private final static Logger logger = LogManager.getLogger(CompetencyDetail.class);
 
-    public Competency() {
+    public CompetencyDetail() {
         //no-arg constructor for Hibernate
     }
 
@@ -21,7 +21,7 @@ public class Competency extends Detail {
      * Creates a new keyword and sets it to active
      * @param competencyName
      */
-    public Competency(String competencyName) {
+    public CompetencyDetail(String competencyName) {
         super(competencyName);
         this.abbreviation = null;
     }
@@ -34,7 +34,7 @@ public class Competency extends Detail {
 
     @Override
     public String toString() {
-        return "Competency{" +
+        return "CompetencyDetail{" +
                 "id=" + id +
                 ", courseId=" + courseId +
                 ", active=" + active +

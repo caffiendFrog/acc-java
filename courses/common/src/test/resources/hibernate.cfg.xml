@@ -34,11 +34,12 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">create</property>
 
-        <mapping class="org.catalyst.courses.entities.Audience"/>
-        <mapping class="org.catalyst.courses.entities.Competency"/>
         <mapping class="org.catalyst.courses.entities.Course"/>
-        <mapping class="org.catalyst.courses.entities.Institution"/>
-        <mapping class="org.catalyst.courses.entities.Translation"/>
+        <mapping class="org.catalyst.courses.entities.AudienceDetail"/>
+        <mapping class="org.catalyst.courses.entities.CompetencyDetail"/>
+        <mapping class="org.catalyst.courses.entities.CourseDetail"/>
+        <mapping class="org.catalyst.courses.entities.InstitutionDetail"/>
+        <mapping class="org.catalyst.courses.entities.TranslationDetail"/>
     </session-factory>
 
 </hibernate-configuration>

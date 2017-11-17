@@ -62,11 +62,6 @@ public class DetailTest extends TestCase {
         aDetail.activate();
         assertTrue(aDetail.isActive());
 
-        // course id for aDetail should start as null
-        assertNull(aDetail.getCourseId());
-        aDetail.setCourseId(96);
-        assertEquals(96, aDetail.getCourseId().intValue());
-
         // abbreviation should be null to start
         assertNull(aDetail.getAbbreviation());
         aDetail.setAbbreviation(aAbbreviation);
@@ -111,5 +106,15 @@ public class DetailTest extends TestCase {
         assertEquals(aDetail.getAbbreviation(), idToDetail.get(aDetail.getId()).getAbbreviation());
         assertEquals(aDetail.getName(), idToDetail.get(aDetail.getId()).getName());
         assertFalse(idToDetail.get(bDetail.getId()).isActive());
+    }
+
+    public void testEquality() {
+        HibernateManager.getInstance().saveOrUpdate(Arrays.asList(bDetail, aDetail));
+
+        Detail result = HibernateManager.getInstance().getEntity(Detail.class, aDetail.getId());
+        // should be 'logically' equal
+        assertEquals(aDetail, result);
+        // should NOT be 'physically' equal
+        assertFalse(aDetail == result);
     }
 }
