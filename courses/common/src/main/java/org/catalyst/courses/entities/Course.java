@@ -7,9 +7,6 @@ import javax.persistence.*;
 
 /**
  * This entity is a join table to fully describe a course.
- *
- * It is intentional that there are no setters for the various detailIds. If we need to change the relationship,
- * we should delete the out-of-date relationship and create a new relationship instead.
  */
 @Entity
 @Table(name = "course")
@@ -69,6 +66,27 @@ public class Course {
     }
 
     public int getId() { return courseId; }
+
+    // We don't actually need to use the setters, but hibernate needs these
+    public void setCourseDetailId(int courseDetailId) {
+        this.courseDetailId = courseDetailId;
+    }
+
+    public void setTranslationDetailId(int translationDetailId) {
+        this.translationDetailId = translationDetailId;
+    }
+
+    public void setAudienceDetailId(int audienceDetailId) {
+        this.audienceDetailId = audienceDetailId;
+    }
+
+    public void setInstitutionDetailId(int institutionDetailId) {
+        this.institutionDetailId = institutionDetailId;
+    }
+
+    public void setCompetencyDetailId(int competencyDetailId) {
+        this.competencyDetailId = competencyDetailId;
+    }
 
     @Override
     public boolean equals(Object o) {
