@@ -7,6 +7,8 @@ import org.catalyst.services.hibernate.HibernateManager;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class DetailTest extends TestCase {
@@ -60,10 +62,10 @@ public class DetailTest extends TestCase {
         aDetail.activate();
         assertTrue(aDetail.isActive());
 
-        // course id for aDetail should start as 0
-        assertEquals(0, aDetail.getCourseId());
+        // course id for aDetail should start as null
+        assertNull(aDetail.getCourseId());
         aDetail.setCourseId(96);
-        assertEquals(96, aDetail.getCourseId());
+        assertEquals(96, aDetail.getCourseId().intValue());
 
         // abbreviation should be null to start
         assertNull(aDetail.getAbbreviation());
@@ -80,15 +82,34 @@ public class DetailTest extends TestCase {
      * Test that crud operations to the DB for the entity work as expected
      */
     public void testCRUD() {
-        // Create details
+        // Create/Save details
         HibernateManager.getInstance().saveOrUpdate(Arrays.asList(aDetail, bDetail));
 
         // Read details
-        List<Detail> details = HibernateManager.getInstance().getAll(Detail.class);
-        List<String> detailNames = details.stream().map(Detail::getName).collect(Collectors.toList());
+        List<Detail> details = HibernateManager.getInstance().getAllEntities(Detail.class);
+        Map<Integer, Detail> idToDetail = details.stream().collect(Collectors.toMap(Detail::getId, Function.identity()));
 
         assertEquals(2, details.size());
-        assertTrue(detailNames.contains(aName));
-        assertTrue(detailNames.contains(bName));
+        assertEquals(aDetail.getName(), idToDetail.get(aDetail.getId()).getName());
+        assertEquals(bDetail.getName(), idToDetail.get(bDetail.getId()).getName());
+
+        // Get a single detail
+        Detail detail = HibernateManager.getInstance().getEntity(Detail.class, aDetail.getId());
+        assertEquals(aDetail.getName(), detail.getName());
+        assertEquals(aDetail, detail);
+
+        // Update optional fields
+        aDetail.setNote(note);
+        aDetail.setAbbreviation(aAbbreviation);
+        bDetail.deactivate();
+        HibernateManager.getInstance().saveOrUpdate(Arrays.asList(aDetail, bDetail));
+
+        // Read back from database and check
+        details = HibernateManager.getInstance().getAllEntities(Detail.class);
+        idToDetail = details.stream().collect(Collectors.toMap(Detail::getId, Function.identity()));
+        assertEquals(aDetail.getNote(), idToDetail.get(aDetail.getId()).getNote());
+        assertEquals(aDetail.getAbbreviation(), idToDetail.get(aDetail.getId()).getAbbreviation());
+        assertEquals(aDetail.getName(), idToDetail.get(aDetail.getId()).getName());
+        assertFalse(idToDetail.get(bDetail.getId()).isActive());
     }
 }

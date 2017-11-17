@@ -26,6 +26,23 @@ public class Translation extends  Detail {
         this.abbreviation = abbreviation;
     }
 
+    /**
+     * Abbreviations are required, override to check for null and empty string
+     * @param abbreviation
+     */
+    public void setAbbreviation(String abbreviation) {
+        if (abbreviation == null) {
+            throw new NullPointerException("Cannot set entity name to null.");
+        }
+
+        if (abbreviation.isEmpty()) {
+            logger.warn("Trying to change entity name from ["+this.abbreviation+"] to ["+abbreviation+"]. This is likely to cause" +
+                    " errors downstream.");
+        }
+
+        this.abbreviation = abbreviation;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

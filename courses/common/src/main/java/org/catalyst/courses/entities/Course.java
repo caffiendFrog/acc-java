@@ -53,29 +53,29 @@ public class Course extends Detail {
     }
 
     /**
-     * Creates a new course and sets it to active
+     * Creates a new course and sets it to active, not-archived, no webcast
      * @param courseName
      */
     public Course(String courseName) {
         super(courseName);
-        this.courseId = -1;
+        this.archived = false;
+        this.webcast = false;
     }
 
     @Override
     public void setCourseId(int courseId) {
-        // Courses don't need to reference themselves. Set this to avoid accidentally doing it.
-        this.courseId = -1;
+        // no-op, courses don't need to reference themselves.
     }
 
     public boolean isArchived() {
         return archived;
     }
 
-    public void setArchived(boolean archived) {
-        this.archived = archived;
-    }
+    public void archive() { this.archived = true; }
 
-    public boolean isWebcast() {
+    public void unArchive() { this.archived = false; }
+
+    public boolean hasWebcast() {
         return webcast;
     }
 

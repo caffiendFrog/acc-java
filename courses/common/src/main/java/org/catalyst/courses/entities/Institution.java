@@ -8,10 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+/**
+ * Extending translation because translation already has checks for requiring abbreviations. Just adding to that
+ */
 @Entity
 @Table(name = "institution")
 @PrimaryKeyJoinColumn(name="detail_id")
-public class Institution extends Detail {
+public class Institution extends Translation {
     private final static Logger logger = LogManager.getLogger(Institution.class);
 
     @Column(name = "sponsor")
@@ -27,14 +30,12 @@ public class Institution extends Detail {
      * @param abbreviation
      */
     public Institution(String institutionName, String abbreviation) {
-        super(institutionName);
-        this.abbreviation = abbreviation;
+        super(institutionName, abbreviation);
         this.sponsor = true;
     }
 
     public Institution(String institutionName, String abbreviation, boolean isSponsor) {
-        super(institutionName);
-        this.abbreviation = abbreviation;
+        super(institutionName, abbreviation);
         this.sponsor = isSponsor;
     }
 
@@ -42,9 +43,7 @@ public class Institution extends Detail {
         return sponsor;
     }
 
-    public void setSponsor(boolean sponsor) {
-        this.sponsor = sponsor;
-    }
+    public void setSponsor(boolean sponsor) { this.sponsor = sponsor; }
 
     @Override
     public boolean equals(Object o) {

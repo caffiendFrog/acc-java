@@ -9,6 +9,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class HibernateManager {
@@ -41,30 +42,42 @@ public class HibernateManager {
      * @param entities
      */
     public <T> void saveOrUpdate(List<T> entities) {
-        final Session session = sessionFactory.openSession();
-        session.beginTransaction();
+        final Session session = startTransaction();
         for ( T entity : entities ) {
             session.saveOrUpdate(entity);
         }
-        session.getTransaction().commit();
-        session.close();
+        endTransaction(session);
     }
 
-    public List getAll(final Class entityClazz) {
-        final Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        List result = session.createQuery("from "+entityClazz.getSimpleName()).list();
-        session.getTransaction().commit();
-        session.close();
+    /**
+     * Convenience method for when there is only a single entity
+     * @param entity
+     * @param <T>
+     */
+    public <T> void saveOrUpdate(T entity) {
+        saveOrUpdate(Arrays.asList(entity));
+    }
+
+    public <T> T getEntity(final Class<T> clazz, final int primaryKey) {
+        final Session session = startTransaction();
+        T result = session.get(clazz, primaryKey);
+        endTransaction(session);
+        return result;
+    }
+
+    public List getAllEntities(final Class clazz) {
+        final Session session = startTransaction();
+        List result = session.createQuery("from "+clazz.getSimpleName()).list();
+        endTransaction(session);
         return result;
     }
 
     public List query(final Class entityClazz, final String clause) {
         final String hql = "SELECT * FROM " + entityClazz.getSimpleName() + " WHERE " + clause;
-        final Session session = sessionFactory.openSession();
-        session.beginTransaction();
+        final Session session = startTransaction();
         if (DEBUG) { logger.debug("QUERY: ["+hql+"]"); }
         final List result = session.createQuery(hql).list();
+        endTransaction(session);
         return result;
     }
 

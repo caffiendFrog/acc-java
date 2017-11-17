@@ -1,24 +1,38 @@
 package org.catalyst.courses.entities;
 
 import junit.framework.TestCase;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.catalyst.services.hibernate.HibernateManager;
+
+import java.util.Arrays;
 
 public class CompetencyTest extends TestCase {
-    private final String bio_competency_keyword = "Biofelinatics";
-    private final String chem_competency_keyword = "Caffiene";
-    private final String chem_comptency_note = "Required for proper functions of the neuronic regions.";
-//    private final Competency bio_competency = new Competency(bio_competency_keyword);
-//    private final Competency chem_competency = new Competency(chem_competency_keyword);
+    private final static Logger logger = LogManager.getLogger(CompetencyTest.class);
+
+    // protected static so we can reference these values in CourseTest
+    protected final static String bioCompetencyName = "Biofelinatics";
+    protected final static String bioCompetencyNote = "Meow mrow meow.";
+    protected final static String chemCompetencyName = "Caffiene";
+    protected final static String chemCompetencyNote = "Required for proper functions of the neuronic regions.";
+
+    private Competency bioCompetency;
+    private Competency chemCompetency;
+
+    public void setUp() {
+        bioCompetency = new Competency(bioCompetencyName);
+        chemCompetency = new Competency(chemCompetencyName);
+    }
 
     /**
-     * Basic unit test to make sure getters & setters are correctly associated to the fields
-     * and verify we can read, write and update the competencies
+     * Basic unit test to check the behavior of the required name field and also to check that non-applicable fields
+     * (abbreviation) is always null and can't be set accidentally.
      */
     public void testBasicCompetency() {
-        final Competency bioCompetency = new Competency(bio_competency_keyword);
-        assertEquals(bio_competency_keyword, bioCompetency.getName());
+        assertEquals(bioCompetencyName, bioCompetency.getName());
 
-        bioCompetency.setNote(chem_comptency_note);
-        assertEquals(chem_comptency_note, bioCompetency.getNote());
+        bioCompetency.setNote(bioCompetencyNote);
+        assertEquals(bioCompetencyNote, bioCompetency.getNote());
 
         // abbreviation should always be null
         bioCompetency.setAbbreviation("BFS");
@@ -26,24 +40,20 @@ public class CompetencyTest extends TestCase {
     }
 
     /**
-     * Tests that we are able to save and load the entities to the database.
+     * Most of the fields are already covered in the <code>DetailTest</code>. Check that we don't accidentally save
+     * an abbreviation
      */
-    public void testSave() {
-//        HibernateManager.getInstance().saveOrUpdate(Arrays.asList(bio_competency, chem_competency));
-//        List<Competency> competencies = HibernateManager.getInstance().getAll(Competency.class);
-//        List<String> competency_keywords = competencies.stream().map(Competency::getName).collect(Collectors.toList());
-//
-//        assertTrue(competency_keywords.contains(bio_competency_keyword));
-//        assertTrue(competency_keywords.contains(chem_competency_keyword));
-//        assertEquals(2, competencies.size());
+    public void testCRUD() {
+        // try to set the abbreviation
+        bioCompetency.setAbbreviation("BFS");
+
+        // Create/Save competency
+        HibernateManager.getInstance().saveOrUpdate(Arrays.asList(bioCompetency, chemCompetency));
+
+        Competency result = HibernateManager.getInstance().getEntity(Competency.class, bioCompetency.getId());
+        assertNull(result.getAbbreviation());
+
+        // check the equals override
+        assertEquals(bioCompetency, result);
     }
-
-    /**
-     * Tests that we are able to query for and update entities in the database
-     */
-//    public void testUpdate() {
-//        List<Competency> competencies = HibernateManager.getInstance().getAll(Competency.class);
-//        assertEquals(2, competencies.size());
-//    }
-
 }

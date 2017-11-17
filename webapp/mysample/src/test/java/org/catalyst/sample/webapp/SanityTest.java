@@ -37,7 +37,7 @@ public class SanityTest extends TestCase {
         events.add(new SanityEvent( "A follow up THIRD event", new Date() ) );
         HibernateManager.getInstance().saveOrUpdate(events);
 
-        List<SanityEvent> results = HibernateManager.getInstance().getAll(SanityEvent.class);
+        List<SanityEvent> results = HibernateManager.getInstance().getAllEntities(SanityEvent.class);
         System.out.println("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=");
         for (SanityEvent event : results) {
             System.out.println( "SanityEvent (" + event.getDate() + ") : " + event.getTitle() );

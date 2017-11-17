@@ -16,7 +16,7 @@ public class Detail {
     protected int id;
 
     @Column(name = "courseId")
-    protected int courseId;
+    protected Integer courseId;
 
     @Column(name = "isActive")
     protected boolean active;
@@ -75,7 +75,7 @@ public class Detail {
         this.note = note;
     }
 
-    public int getCourseId() {
+    public Integer getCourseId() {
         return courseId;
     }
 
@@ -93,6 +93,20 @@ public class Detail {
 
     public int getId() {
         return id;
+    }
+
+    /**
+     * Returns a copy of this object that is safe to mutate without unintended side effects on the original object
+     * @return
+     */
+    public Detail deepCopy() {
+        Detail copy = new Detail(this.name);
+        copy.id = this.id;
+        copy.courseId = this.courseId;
+        copy.active = this.active;
+        copy.abbreviation = this.abbreviation;
+        copy.note = this.note;
+        return copy;
     }
 
     @Override
