@@ -4,6 +4,7 @@
 <module rename-to="ACC">
     <!-- Inherit the core Web Toolkit stuff.                  -->
     <inherits name='com.google.gwt.user.User'/>
+    <inherits name="org.catalyst.courses.gwt.Course"/>
 
     <entry-point class="org.catalyst.courses.gwt.AccApp"/>
 
