@@ -62,11 +62,6 @@ public class CourseDetail extends Detail {
         this.webcast = false;
     }
 
-    @Override
-    public void setCourseId(int courseId) {
-        // no-op, courses don't need to reference themselves.
-    }
-
     public boolean isArchived() {
         return archived;
     }

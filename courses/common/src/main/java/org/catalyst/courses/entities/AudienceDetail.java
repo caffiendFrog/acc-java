@@ -36,7 +36,6 @@ public class AudienceDetail extends Detail {
     public String toString() {
         return "AudienceDetail{" +
                 "id=" + id +
-                ", courseId=" + courseId +
                 ", active=" + active +
                 ", name='" + name + '\'' +
                 ", note='" + note + '\'' +
