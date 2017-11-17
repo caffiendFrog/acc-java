@@ -3,7 +3,7 @@ package org.catalyst.courses.entities;
 import junit.framework.TestCase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.catalyst.services.hibernate.HibernateManager;
+import org.catalyst.services.HibernateManager;
 
 import java.util.Arrays;
 import java.util.List;

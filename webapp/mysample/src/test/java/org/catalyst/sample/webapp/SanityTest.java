@@ -2,7 +2,7 @@ package org.catalyst.sample.webapp;
 
 import junit.framework.TestCase;
 import org.catalyst.sample.hibernate.SampleHibernateProvider;
-import org.catalyst.services.hibernate.HibernateManager;
+import org.catalyst.services.HibernateManager;
 import org.hibernate.Session;
 
 import java.util.ArrayList;

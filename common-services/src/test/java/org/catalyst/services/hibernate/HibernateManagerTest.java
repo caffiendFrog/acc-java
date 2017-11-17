@@ -3,6 +3,7 @@ package org.catalyst.services.hibernate;
 import junit.framework.TestCase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.catalyst.services.HibernateManager;
 import org.hibernate.Session;
 
 import javax.persistence.criteria.CriteriaBuilder;
