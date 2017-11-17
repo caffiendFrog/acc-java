@@ -30,7 +30,6 @@ public class HibernateManagerTest extends TestCase {
         HibernateManager.getInstance().saveOrUpdate(events);
         List<TestEvent> retrievedEvents = HibernateManager.getInstance().getAllEntities(TestEvent.class);
         List<String> retrievedEventTitles = retrievedEvents.stream().map(TestEvent::getTitle).collect(Collectors.toList());
-        assertEquals(events.size(), retrievedEvents.size());
         assertTrue(retrievedEventTitles.contains(eventA.getTitle()));
         assertTrue(retrievedEventTitles.contains(eventB.getTitle()));
         assertFalse(retrievedEventTitles.contains(eventC.getTitle()));

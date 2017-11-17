@@ -167,8 +167,6 @@ public class CourseDetail extends Detail {
         if (hours != null ? !hours.equals(course.hours) : course.hours != null) return false;
         if (maxEnroll != null ? !maxEnroll.equals(course.maxEnroll) : course.maxEnroll != null) return false;
         if (searchBlob != null ? !searchBlob.equals(course.searchBlob) : course.searchBlob != null) return false;
-        if (date != null ? !date.equals(course.date) : course.date != null) return false;
-        if (sortDate != null ? !sortDate.equals(course.sortDate) : course.sortDate != null) return false;
         return dateInfo != null ? dateInfo.equals(course.dateInfo) : course.dateInfo == null;
     }
 
