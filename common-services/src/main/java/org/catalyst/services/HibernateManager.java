@@ -93,4 +93,13 @@ public class HibernateManager {
         session.close();
         activeSessions.remove(session);
     }
+
+
+    public void shutdown() {
+        // close out any active sessions
+        for (Session session : activeSessions) {
+            session.close();
+        }
+        sessionFactory.close();
+    }
 }

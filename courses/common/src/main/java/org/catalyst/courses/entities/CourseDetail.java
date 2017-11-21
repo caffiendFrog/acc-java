@@ -2,18 +2,32 @@ package org.catalyst.courses.entities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.catalyst.courses.test.InstitutionDetail_new;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "courseDetail")
-@PrimaryKeyJoinColumn(name = "detail_id")
-public class CourseDetail extends Detail {
+public class CourseDetail {
     private final static Logger logger = LogManager.getLogger(CourseDetail.class);
+
+//    @OneToOne
+//    @JoinColumn(name="detail_id")
+////    @Column(name="institution_id")
+////    private Integer institutionDetail_id;
+//    private InstitutionDetail institutionDetail;
+//    @Column(name="institutionDetail_id")
+//    private int detail_id;
+
+    @Id
+    @GeneratedValue
+    @Column(name="courseDetail_id")
+    private int courseDetail_id;
+
+    @OneToOne
+    @JoinColumn(name="institutionalDetail_id")
+    private InstitutionDetail_new institutionalDetail;
 
     @Column(name = "archived")
     private boolean archived;
@@ -39,9 +53,13 @@ public class CourseDetail extends Detail {
     @Column(name = "searchBlob")
     private String searchBlob;
 
+
+    //TODO: Update tests to see if dates work better now
+    @Temporal(TemporalType.DATE)
     @Column(name = "courseDate")
     private Date date;
 
+    @Temporal(TemporalType.DATE)
     @Column(name = "sortDate")
     private Date sortDate;
 
@@ -52,12 +70,15 @@ public class CourseDetail extends Detail {
         // no-arg constructor for hibernate
     }
 
+    protected Integer getId() {
+        return courseDetail_id;
+    }
     /**
      * Creates a new course and sets it to active, not-archived, no webcast
      * @param courseName
      */
     public CourseDetail(String courseName) {
-        super(courseName);
+//        super(courseName);
         this.archived = false;
         this.webcast = false;
     }
@@ -149,62 +170,79 @@ public class CourseDetail extends Detail {
     public void setDateInfo(String dateInfo) {
         this.dateInfo = dateInfo;
     }
+//
+//    public int getInstitutionDetail_id() {
+//        return institutionDetail_id;
+//    }
+//
+//    public void setInstitutionDetail_id(int institutionDetail_id) {
+//        this.institutionDetail_id = institutionDetail_id;
+//    }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+//
+//    public InstitutionDetail getInstitutionDetail() {
+//        return institutionDetail;
+//    }
+//
+//    public void setInstitutionDetail(InstitutionDetail institutionDetail) {
+//        this.institutionDetail = institutionDetail;
+//    }
 
-        CourseDetail course = (CourseDetail) o;
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        if (!super.equals(o)) return false;
+//
+//        CourseDetail course = (CourseDetail) o;
+//
+//        if (archived != course.archived) return false;
+//        if (webcast != course.webcast) return false;
+//        if (contactEmail != null ? !contactEmail.equals(course.contactEmail) : course.contactEmail != null)
+//            return false;
+//        if (contactUrl != null ? !contactUrl.equals(course.contactUrl) : course.contactUrl != null) return false;
+//        if (description != null ? !description.equals(course.description) : course.description != null) return false;
+//        if (hours != null ? !hours.equals(course.hours) : course.hours != null) return false;
+//        if (maxEnroll != null ? !maxEnroll.equals(course.maxEnroll) : course.maxEnroll != null) return false;
+//        if (searchBlob != null ? !searchBlob.equals(course.searchBlob) : course.searchBlob != null) return false;
+//        return dateInfo != null ? dateInfo.equals(course.dateInfo) : course.dateInfo == null;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        int result = super.hashCode();
+//        result = 31 * result + (archived ? 1 : 0);
+//        result = 31 * result + (webcast ? 1 : 0);
+//        result = 31 * result + (contactEmail != null ? contactEmail.hashCode() : 0);
+//        result = 31 * result + (contactUrl != null ? contactUrl.hashCode() : 0);
+//        result = 31 * result + (description != null ? description.hashCode() : 0);
+//        result = 31 * result + (hours != null ? hours.hashCode() : 0);
+//        result = 31 * result + (maxEnroll != null ? maxEnroll.hashCode() : 0);
+//        result = 31 * result + (searchBlob != null ? searchBlob.hashCode() : 0);
+//        result = 31 * result + (date != null ? date.hashCode() : 0);
+//        result = 31 * result + (sortDate != null ? sortDate.hashCode() : 0);
+//        result = 31 * result + (dateInfo != null ? dateInfo.hashCode() : 0);
+//        return result;
+//    }
 
-        if (archived != course.archived) return false;
-        if (webcast != course.webcast) return false;
-        if (contactEmail != null ? !contactEmail.equals(course.contactEmail) : course.contactEmail != null)
-            return false;
-        if (contactUrl != null ? !contactUrl.equals(course.contactUrl) : course.contactUrl != null) return false;
-        if (description != null ? !description.equals(course.description) : course.description != null) return false;
-        if (hours != null ? !hours.equals(course.hours) : course.hours != null) return false;
-        if (maxEnroll != null ? !maxEnroll.equals(course.maxEnroll) : course.maxEnroll != null) return false;
-        if (searchBlob != null ? !searchBlob.equals(course.searchBlob) : course.searchBlob != null) return false;
-        return dateInfo != null ? dateInfo.equals(course.dateInfo) : course.dateInfo == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (archived ? 1 : 0);
-        result = 31 * result + (webcast ? 1 : 0);
-        result = 31 * result + (contactEmail != null ? contactEmail.hashCode() : 0);
-        result = 31 * result + (contactUrl != null ? contactUrl.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (hours != null ? hours.hashCode() : 0);
-        result = 31 * result + (maxEnroll != null ? maxEnroll.hashCode() : 0);
-        result = 31 * result + (searchBlob != null ? searchBlob.hashCode() : 0);
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (sortDate != null ? sortDate.hashCode() : 0);
-        result = 31 * result + (dateInfo != null ? dateInfo.hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "CourseDetail{" +
-                "id=" + id +
-                ", archived=" + archived +
-                ", webcast=" + webcast +
-                ", contactEmail='" + contactEmail + '\'' +
-                ", contactUrl='" + contactUrl + '\'' +
-                ", description='" + description + '\'' +
-                ", hours='" + hours + '\'' +
-                ", maxEnroll='" + maxEnroll + '\'' +
-                ", searchBlob='" + searchBlob + '\'' +
-                ", date=" + date +
-                ", sortDate=" + sortDate +
-                ", dateInfo='" + dateInfo + '\'' +
-                ", active=" + active +
-                ", name='" + name + '\'' +
-                ", note='" + note + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "CourseDetail{" +
+//                "id=" + id +
+//                ", archived=" + archived +
+//                ", webcast=" + webcast +
+//                ", contactEmail='" + contactEmail + '\'' +
+//                ", contactUrl='" + contactUrl + '\'' +
+//                ", description='" + description + '\'' +
+//                ", hours='" + hours + '\'' +
+//                ", maxEnroll='" + maxEnroll + '\'' +
+//                ", searchBlob='" + searchBlob + '\'' +
+//                ", date=" + date +
+//                ", sortDate=" + sortDate +
+//                ", dateInfo='" + dateInfo + '\'' +
+//                ", active=" + active +
+//                ", name='" + name + '\'' +
+//                ", note='" + note + '\'' +
+//                '}';
+//    }
 }

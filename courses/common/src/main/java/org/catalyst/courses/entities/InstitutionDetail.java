@@ -3,19 +3,29 @@ package org.catalyst.courses.entities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Extending translation because translation already has checks for requiring abbreviations. Just adding to that
  */
 @Entity
 @Table(name = "institutionDetail")
-@PrimaryKeyJoinColumn(name="detail_id")
+//@PrimaryKeyJoinColumn(name="detail_id")
 public class InstitutionDetail extends TranslationDetail {
     private final static Logger logger = LogManager.getLogger(InstitutionDetail.class);
+
+    public int getInstitutionDetail_id() {
+        return institutionDetail_id;
+    }
+
+    public void setInstitutionDetail_id(int institutionDetail_id) {
+        this.institutionDetail_id = institutionDetail_id;
+    }
+
+    @Id
+    @GeneratedValue
+    @Column(name="institutionDetail_id")
+    private int institutionDetail_id;
 
     @Column(name = "sponsor")
     private boolean sponsor;
@@ -31,7 +41,13 @@ public class InstitutionDetail extends TranslationDetail {
      */
     public InstitutionDetail(String institutionName, String abbreviation) {
         super(institutionName, abbreviation);
-        this.sponsor = true;
+        this.sponsor = false;
+    }
+
+    public InstitutionDetail(String institutionName, String abbreviation, String note) {
+        super(institutionName, abbreviation);
+        this.note = note;
+        this.sponsor = false;
     }
 
     public InstitutionDetail(String institutionName, String abbreviation, boolean isSponsor) {

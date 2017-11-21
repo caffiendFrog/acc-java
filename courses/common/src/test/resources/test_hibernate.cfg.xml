@@ -15,7 +15,7 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/local_acc?createDatabaseIfNotExist=true</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/augh?createDatabaseIfNotExist=true</property>
         <property name="connection.username">root</property>
         <property name="connection.password"/>
 
@@ -41,6 +41,7 @@
         <!--<mapping class="org.catalyst.courses.entities.InstitutionDetail"/>-->
         <mapping class="org.catalyst.courses.test.InstitutionDetail_new"/>
         <mapping class="org.catalyst.courses.test.CourseDetail_new"/>
+        <mapping class="org.catalyst.courses.test.Detail_new"/>
         <!--<mapping class="org.catalyst.courses.entities.TranslationDetail"/>-->
     </session-factory>
 

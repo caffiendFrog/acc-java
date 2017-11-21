@@ -62,14 +62,14 @@ public class InstitutionDetailTest extends TestCase {
         HibernateManager.getInstance().saveOrUpdate(Arrays.asList(hku, bmc));
 
         // check the abbreviations
-        InstitutionDetail result = HibernateManager.getInstance().getEntity(InstitutionDetail.class, hku.getId());
-        assertEquals(hkuAbbreviation, result.getAbbreviation());
-
-        // change sponsorship for hku
-        hku.setSponsor(hkuIsSponsor);
-        HibernateManager.getInstance().saveOrUpdate(hku);
-        result = HibernateManager.getInstance().getEntity(InstitutionDetail.class, hku.getId());
-        assertFalse(result.isSponsor());
+//        InstitutionDetail result = HibernateManager.getInstance().getEntity(InstitutionDetail.class, hku.getId());
+//        assertEquals(hkuAbbreviation, result.getAbbreviation());
+//
+//        // change sponsorship for hku
+//        hku.setSponsor(hkuIsSponsor);
+//        HibernateManager.getInstance().saveOrUpdate(hku);
+//        result = HibernateManager.getInstance().getEntity(InstitutionDetail.class, hku.getId());
+//        assertFalse(result.isSponsor());
     }
 
     public void testEquality() {

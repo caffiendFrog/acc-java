@@ -15,7 +15,7 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/local_acc?createDatabaseIfNotExist=true</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/services_stage?zeroDateTimeBehavior=convertToNull</property>
         <property name="connection.username">root</property>
         <property name="connection.password"/>
 
@@ -31,17 +31,17 @@
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
 
-        <!-- Drop and re-create the database schema on startup -->
-        <property name="hbm2ddl.auto">create</property>
-
-        <!--<mapping class="org.catalyst.courses.entities.Course"/>-->
-        <!--<mapping class="org.catalyst.courses.entities.AudienceDetail"/>-->
-        <!--<mapping class="org.catalyst.courses.entities.CompetencyDetail"/>-->
-        <!--<mapping class="org.catalyst.courses.entities.CourseDetail"/>-->
-        <!--<mapping class="org.catalyst.courses.entities.InstitutionDetail"/>-->
-        <mapping class="org.catalyst.courses.test.InstitutionDetail_new"/>
-        <mapping class="org.catalyst.courses.test.CourseDetail_new"/>
-        <!--<mapping class="org.catalyst.courses.entities.TranslationDetail"/>-->
+        <mapping class="org.catalyst.courses.legacy.entities.LegacyAudience"/>
+        <mapping class="org.catalyst.courses.legacy.entities.LegacyCourse"/>
+        <mapping class="org.catalyst.courses.legacy.entities.LegacyCourseAudience"/>
+        <mapping class="org.catalyst.courses.legacy.entities.LegacyCourseKeyword"/>
+        <mapping class="org.catalyst.courses.legacy.entities.LegacyCourseSearch"/>
+        <mapping class="org.catalyst.courses.legacy.entities.LegacyCourseSponsor"/>
+        <mapping class="org.catalyst.courses.legacy.entities.LegacyCourseTranslation"/>
+        <mapping class="org.catalyst.courses.legacy.entities.LegacyInstitution"/>
+        <mapping class="org.catalyst.courses.legacy.entities.LegacyKeyword"/>
+        <mapping class="org.catalyst.courses.legacy.entities.LegacySponsor"/>
+        <mapping class="org.catalyst.courses.legacy.entities.LegacyTranslation"/>
     </session-factory>
 
 </hibernate-configuration>

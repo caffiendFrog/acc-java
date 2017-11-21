@@ -1,4 +1,4 @@
-package org.catalyst.courses.entities;
+package org.catalyst.courses.test;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -7,9 +7,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="detail")
-@Inheritance(strategy = InheritanceType.JOINED)
-public class Detail implements AbstractDetail {
-    private final static Logger logger = LogManager.getLogger(Detail.class);
+public class Detail_new{
+    private final static Logger logger = LogManager.getLogger(Detail_new.class);
 
     @Id @GeneratedValue
     @Column(name = "detail_id")
@@ -27,16 +26,16 @@ public class Detail implements AbstractDetail {
     @Column(name = "note")
     protected String note;
 
-    public Detail() {
+    public Detail_new() {
         // no-arg constructor for Hibernate
     }
 
-    public Detail(String name) {
+    public Detail_new(String name) {
         this.name = name;
         this.active = true;
     }
 
-    public Detail(String name, String note){
+    public Detail_new(String name, String note){
         this.name = name;
         this.note = note;
         this.active = true;
@@ -94,8 +93,8 @@ public class Detail implements AbstractDetail {
      * Returns a copy of this object that is safe to mutate without unintended side effects on the original object
      * @return
      */
-    public Detail deepCopy() {
-        Detail copy = new Detail(this.name);
+    public Detail_new deepCopy() {
+        Detail_new copy = new Detail_new(this.name);
         copy.id = this.id;
         copy.active = this.active;
         copy.abbreviation = this.abbreviation;
@@ -108,7 +107,7 @@ public class Detail implements AbstractDetail {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Detail detail = (Detail) o;
+        Detail_new detail = (Detail_new) o;
 
         if (id != detail.id) return false;
         if (active != detail.active) return false;

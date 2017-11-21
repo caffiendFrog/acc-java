@@ -26,6 +26,11 @@ public class AudienceDetail extends Detail {
         this.abbreviation = null;
     }
 
+    public AudienceDetail(String audienceName, String note) {
+        super(audienceName, note);
+        this.abbreviation = null;
+    }
+
     @Override
     public void setAbbreviation(String abbreviation) {
         // Audiences don't have abbreviations, override to avoid accidentally setting

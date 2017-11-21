@@ -42,7 +42,7 @@
         <mapping class="org.catalyst.courses.entities.TranslationDetail"/>
 
         <!-- legacy entities -->
-        <mapping class="org.catalyst.courses.entities.legacy.LegacyCourse"/>
+        <mapping class="org.catalyst.courses.legacy.entities.LegacyCourse"/>
     </session-factory>
 
 </hibernate-configuration>

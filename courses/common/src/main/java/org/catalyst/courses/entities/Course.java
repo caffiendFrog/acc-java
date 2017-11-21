@@ -18,20 +18,21 @@ public class Course {
     @Column(name = "course_id")
     protected int courseId;
 
+//    @ManyToOne
     @Column(name = "courseDetail_id")
-    protected int courseDetailId;
+    protected Integer courseDetailId;
 
     @Column(name = "translationDetail_id")
-    protected int translationDetailId;
+    protected Integer translationDetailId;
 
     @Column(name = "audienceDetail_id")
-    protected int audienceDetailId;
+    protected Integer audienceDetailId;
 
-    @Column(name = "institutionDetail_id")
-    protected int institutionDetailId;
+    @Column(name = "sponsorDetail_v_id")
+    protected Integer institutionDetailId;
 
     @Column(name = "competencyDetail_id")
-    protected int competencyDetailId;
+    protected Integer competencyDetailId;
 
     public Course() {
         // no-arg constructor for Hibernate
@@ -45,46 +46,50 @@ public class Course {
         this.competencyDetailId = competencyDetailId;
     }
 
-    public int getCourseDetailId() {
-        return courseDetailId;
-    }
-
-    public int getTranslationDetailId() {
-        return translationDetailId;
-    }
-
-    public int getAudienceDetailId() {
-        return audienceDetailId;
-    }
-
-    public int getInstitutionDetailId() {
-        return institutionDetailId;
-    }
-
-    public int getCompetencyDetailId() {
-        return competencyDetailId;
-    }
-
-    public int getId() { return courseId; }
-
-    // We don't actually need to use the setters, but hibernate needs these
-    public void setCourseDetailId(int courseDetailId) {
+    public Course(int courseDetailId) {
         this.courseDetailId = courseDetailId;
     }
 
-    public void setTranslationDetailId(int translationDetailId) {
+    public Integer getCourseDetailId() {
+        return courseDetailId;
+    }
+
+    public Integer getTranslationDetailId() {
+        return translationDetailId;
+    }
+
+    public Integer getAudienceDetailId() {
+        return audienceDetailId;
+    }
+
+    public Integer getInstitutionDetailId() {
+        return institutionDetailId;
+    }
+
+    public Integer getCompetencyDetailId() {
+        return competencyDetailId;
+    }
+
+    public Integer getId() { return courseId; }
+
+    // We don't actually need to use the setters, but hibernate needs these
+    public void setCourseDetailId(Integer courseDetailId) {
+        this.courseDetailId = courseDetailId;
+    }
+
+    public void setTranslationDetailId(Integer translationDetailId) {
         this.translationDetailId = translationDetailId;
     }
 
-    public void setAudienceDetailId(int audienceDetailId) {
+    public void setAudienceDetailId(Integer audienceDetailId) {
         this.audienceDetailId = audienceDetailId;
     }
 
-    public void setInstitutionDetailId(int institutionDetailId) {
+    public void setInstitutionDetailId(Integer institutionDetailId) {
         this.institutionDetailId = institutionDetailId;
     }
 
-    public void setCompetencyDetailId(int competencyDetailId) {
+    public void setCompetencyDetailId(Integer competencyDetailId) {
         this.competencyDetailId = competencyDetailId;
     }
 

@@ -1,4 +1,4 @@
-package org.catalyst.courses.entities.legacy;
+package org.catalyst.courses.legacy.entities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -53,7 +53,7 @@ public class LegacyCourse {
     private Date sortDate;
 
     @Column(name="title")
-    private String title;
+    private String name;
 
     @Column(name="updated")
     private Timestamp updated;
@@ -157,13 +157,16 @@ public class LegacyCourse {
         this.sortDate = sortDate;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
+
+    public String getAbbreviation() { return null; }
+    public void setAbbreviation(String abbreviation) { /* no-op */ }
 
     public Timestamp getUpdated() {
         return updated;
@@ -201,7 +204,7 @@ public class LegacyCourse {
         if (maxEnroll != null ? !maxEnroll.equals(that.maxEnroll) : that.maxEnroll != null) return false;
         if (note != null ? !note.equals(that.note) : that.note != null) return false;
         if (sortDate != null ? !sortDate.equals(that.sortDate) : that.sortDate != null) return false;
-        if (title != null ? !title.equals(that.title) : that.title != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
         return updated != null ? updated.equals(that.updated) : that.updated == null;
     }
 
@@ -219,7 +222,7 @@ public class LegacyCourse {
         result = 31 * result + (maxEnroll != null ? maxEnroll.hashCode() : 0);
         result = 31 * result + (note != null ? note.hashCode() : 0);
         result = 31 * result + (sortDate != null ? sortDate.hashCode() : 0);
-        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (updated != null ? updated.hashCode() : 0);
         result = 31 * result + (webcast ? 1 : 0);
         return result;
@@ -240,7 +243,7 @@ public class LegacyCourse {
                 ", maxEnroll='" + maxEnroll + '\'' +
                 ", note='" + note + '\'' +
                 ", sortDate=" + sortDate +
-                ", title='" + title + '\'' +
+                ", name='" + name + '\'' +
                 ", updated=" + updated +
                 ", webcast=" + webcast +
                 '}';

@@ -34,7 +34,8 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">create</property>
 
-        <mapping class="org.catalyst.courses.entities.legacy.LegacyCourse"/>
+        <mapping class="org.catalyst.courses.legacy.entities.LegacyDetailInterface"/>
+        <mapping class="org.catalyst.courses.legacy.entities.LegacyCourse"/>
     </session-factory>
 
 </hibernate-configuration>

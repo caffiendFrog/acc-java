@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="translationDetail")
 @PrimaryKeyJoinColumn(name="detail_id")
-public class TranslationDetail extends  Detail {
+public class TranslationDetail extends  Detail implements AbstractDetail {
     private static Logger logger = LogManager.getLogger(TranslationDetail.class);
 
     public TranslationDetail() {
@@ -23,6 +23,12 @@ public class TranslationDetail extends  Detail {
      */
     public TranslationDetail(String translationName, String abbreviation) {
         super(translationName);
+        this.abbreviation = abbreviation;
+    }
+
+    // TODO: cclean up the detail contsrtuctor stuff and things
+    public TranslationDetail(String translationName, String abbreviation, String note) {
+        super(translationName, note);
         this.abbreviation = abbreviation;
     }
 

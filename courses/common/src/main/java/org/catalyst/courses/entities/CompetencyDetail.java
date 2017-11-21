@@ -26,6 +26,11 @@ public class CompetencyDetail extends Detail {
         this.abbreviation = null;
     }
 
+    public CompetencyDetail(String competencyName, String note) {
+        super(competencyName, note);
+        this.abbreviation = null;
+    }
+
     @Override
     public void setAbbreviation(String abbreviation) {
         // Competencies don't have abbreviations, override to avoid accidentally setting

@@ -1,4 +1,4 @@
-package org.catalyst.courses.entities.legacy;
+package org.catalyst.courses.legacy.entities;
 
 import junit.framework.TestCase;
 import org.apache.logging.log4j.LogManager;
