@@ -25,7 +25,7 @@ public class Competency extends Detail {
         // no-op constructor for hibernate, cannot be private
     }
 
-    public Competency(String name) { setName(name); };
+    public Competency(String name) { super(name); };
 
     public Integer getId() {
         return this.id;
@@ -39,6 +39,37 @@ public class Competency extends Detail {
         courses.remove(course);
     }
 
+    /**
+     * Intentionally omitting <code>courses</code> because of circular reference
+     * @param o
+     * @return
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Competency that = (Competency) o;
+
+        return id == that.id;
+    }
+
+    /**
+     * Intentionally omitting <code>courses</code> because of circular reference
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + id;
+        return result;
+    }
+
+    /**
+     * Intentionally omitting <code>courses</code> because of circular reference
+     * @return
+     */
     @Override
     public String toString() {
         return "Competency{" +

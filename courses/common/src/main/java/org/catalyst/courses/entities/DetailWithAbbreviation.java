@@ -16,6 +16,15 @@ public abstract class DetailWithAbbreviation extends Detail {
     @Column(name = "abbreviation")
     private String abbreviation;
 
+    protected DetailWithAbbreviation() {
+
+    }
+
+    public DetailWithAbbreviation(String name, String abbreviation) {
+        super(name);
+        setAbbreviation(abbreviation);
+    }
+
     public String getAbbreviation() {
         return abbreviation;
     }
@@ -34,6 +43,24 @@ public abstract class DetailWithAbbreviation extends Detail {
                     " errors downstream.");
         }
         this.abbreviation = abbreviation;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        DetailWithAbbreviation that = (DetailWithAbbreviation) o;
+
+        return abbreviation.equals(that.abbreviation);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + abbreviation.hashCode();
+        return result;
     }
 
     @Override

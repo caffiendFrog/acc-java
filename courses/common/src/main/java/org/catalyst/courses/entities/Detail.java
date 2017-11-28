@@ -96,6 +96,26 @@ public abstract class Detail {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Detail detail = (Detail) o;
+
+        if (active != detail.active) return false;
+        if (!name.equals(detail.name)) return false;
+        return note != null ? note.equals(detail.note) : detail.note == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (active ? 1 : 0);
+        result = 31 * result + name.hashCode();
+        result = 31 * result + (note != null ? note.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "Detail{" +
                 "active=" + active +

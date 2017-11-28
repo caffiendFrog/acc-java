@@ -30,8 +30,8 @@ public class Institution extends DetailWithAbbreviation {
     }
 
     public Institution(String name, String abbreviation) {
-        setName(name);
-        setAbbreviation(abbreviation);
+        super(name, abbreviation);
+        this.sponsor = false;
     }
 
     public Integer getId() {

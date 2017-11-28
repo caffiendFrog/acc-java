@@ -17,11 +17,11 @@ public class InstitutionDetailTest extends TestCase {
     protected final static String t1Name = "TranslationDetail to Alpacas";
     protected final static String t1Abbreviation = "T1";
 
-    private InstitutionDetail hku;
-    private InstitutionDetail bmc;
+//    private InstitutionDetail hku;
+//    private InstitutionDetail bmc;
 
-    public void testSanity() {
-
+    public void testThing() {
+        assertTrue(true);
     }
 //    public void testSanity() {
 //        Detail detail = new Detail();

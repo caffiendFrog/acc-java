@@ -26,7 +26,7 @@ public class Audience extends Detail {
     }
 
     public Audience(String name) {
-        setName(name);
+        super(name);
     }
 
     public Integer getId() {
@@ -39,6 +39,24 @@ public class Audience extends Detail {
 
     public void removeCourse(Course course) {
         courses.remove(course);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Audience audience = (Audience) o;
+
+        return id == audience.id;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + id;
+        return result;
     }
 
     @Override

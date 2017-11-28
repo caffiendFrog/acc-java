@@ -34,21 +34,15 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">create</property>
 
-        <!--<mapping class="org.catalyst.courses.entities.old.Course"/>-->
-        <!--&lt;!&ndash;<mapping class="AudienceDetail"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;<mapping class="CompetencyDetail"/>&ndash;&gt;-->
-        <!--<mapping class="org.catalyst.courses.entities.old.CourseDetail"/>-->
-        <!--<mapping class="org.catalyst.courses.entities.old.InstitutionDetail"/>-->
-        <!--<mapping class="org.catalyst.courses.entities.old.Detail"/>-->
-        <!--<mapping class="org.catalyst.courses.test.InstitutionDetail_new"/>-->
-        <!--<mapping class="org.catalyst.courses.test.CourseDetail_new"/>-->
-        <!--<mapping class="org.catalyst.courses.entities.old.TranslationDetail"/>-->
-        <!--<mapping class="org.catalyst.courses.entities.Detail"/>-->
         <mapping class="org.catalyst.courses.entities.Course"/>
         <mapping class="org.catalyst.courses.entities.Institution"/>
         <mapping class="org.catalyst.courses.entities.Translation"/>
         <mapping class="org.catalyst.courses.entities.Competency"/>
         <mapping class="org.catalyst.courses.entities.Audience"/>
+
+        <!-- Testing entities only -->
+        <mapping class="org.catalyst.courses.entities.ConcreteDetail"/>
+        <mapping class="org.catalyst.courses.entities.ConcreteDetailWithAbbreviation"/>
     </session-factory>
 
 </hibernate-configuration>

@@ -34,12 +34,11 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">create</property>
 
-        <mapping class="org.catalyst.courses.entities.old.Course"/>
-        <mapping class="org.catalyst.courses.entities.old.AudienceDetail"/>
-        <mapping class="org.catalyst.courses.entities.old.CompetencyDetail"/>
-        <mapping class="org.catalyst.courses.entities.old.CourseDetail"/>
-        <mapping class="org.catalyst.courses.entities.old.InstitutionDetail"/>
-        <mapping class="org.catalyst.courses.entities.old.TranslationDetail"/>
+        <mapping class="org.catalyst.courses.entities.Course"/>
+        <mapping class="org.catalyst.courses.entities.Institution"/>
+        <mapping class="org.catalyst.courses.entities.Translation"/>
+        <mapping class="org.catalyst.courses.entities.Competency"/>
+        <mapping class="org.catalyst.courses.entities.Audience"/>
 
         <!-- legacy entities -->
         <mapping class="org.catalyst.courses.legacy.entities.LegacyCourse"/>

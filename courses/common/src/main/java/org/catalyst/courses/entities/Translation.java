@@ -26,8 +26,7 @@ public class Translation extends DetailWithAbbreviation {
     }
 
     protected Translation(String name, String abbreviation) {
-        setName(name);
-        setAbbreviation(abbreviation);
+        super(name, abbreviation);
     }
 
     public Integer getId() {
