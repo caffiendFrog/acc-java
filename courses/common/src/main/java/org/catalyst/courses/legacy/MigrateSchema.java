@@ -2,7 +2,7 @@ package org.catalyst.courses.legacy;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.catalyst.courses.entities.*;
+import org.catalyst.courses.entities.old.*;
 import org.catalyst.courses.legacy.entities.*;
 import org.catalyst.services.HibernateManager;
 import org.hibernate.Session;
@@ -140,12 +140,12 @@ public class MigrateSchema {
     }
 
     private static void migrateTranslations() {
-        List<LegacyTranslation> legacyTranslations = getListFromDB(LegacyTranslation.class);
-        for (LegacyTranslation lt : legacyTranslations) {
-            TranslationDetail translationDetail = new TranslationDetail(lt.getName(), lt.getAbbreviation(), lt.getNote());
-            newSchemaManager.saveOrUpdate(translationDetail);
-            legacyIdToTranslationDetail.put(lt.getId(), translationDetail);
-        }
+//        List<LegacyTranslation> legacyTranslations = getListFromDB(LegacyTranslation.class);
+//        for (LegacyTranslation lt : legacyTranslations) {
+////            TranslationDetail translationDetail = new TranslationDetail(lt.getName(), lt.getAbbreviation(), lt.getNote());
+//            newSchemaManager.saveOrUpdate(translationDetail);
+//            legacyIdToTranslationDetail.put(lt.getId(), translationDetail);
+//        }
     }
 
     private static void migrateInstitutions() {

@@ -1,6 +1,6 @@
 package org.catalyst.courses.legacy;
 
-import org.catalyst.courses.entities.InstitutionDetail;
+import org.catalyst.courses.entities.old.InstitutionDetail;
 
 /**
  * A POJO to assist with migrating the institutions & sponsors table from the legacy database to the new schema

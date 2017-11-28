@@ -5,10 +5,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.catalyst.services.HibernateManager;
 
-import java.util.Arrays;
+import java.util.List;
 
 public class InstitutionDetailTest extends TestCase {
-    private final static Logger logger = LogManager.getLogger(InstitutionDetailTest.class);
+    private final static Logger logger  = LogManager.getLogger(InstitutionDetailTest.class);
 
     // protected static so we can reference these values in CourseDetailTest
     protected final static String hkuName = "Hello Kitty University";
@@ -17,69 +17,44 @@ public class InstitutionDetailTest extends TestCase {
     protected final static String bmcAbbreviation = "BMC";
     protected final static String bmcNote = "Cartoon penguins allowed only";
     protected final static boolean hkuIsSponsor = false;
+    protected final static String t1Name = "TranslationDetail to Alpacas";
+    protected final static String t1Abbreviation = "T1";
+    protected static final String rohtoCourseName = "Partiality confounded Rohto-effect";
+    protected static final String rohtoDescription = "Cure for red eyes and staring at monitors until the eyeballs bleed dry.";
 
     private InstitutionDetail hku;
     private InstitutionDetail bmc;
 
-    public void setUp() {
+    public void testSanity() {
         hku = new InstitutionDetail(hkuName, hkuAbbreviation);
-        bmc = new InstitutionDetail(bmcName, bmcAbbreviation);
-    }
-
-    /**
-     * Quick sanity check we're still setting the basics correctly and check the InstitutionDetail specific fields and defaults
-     */
-    public void testBasicInstitution() {
-        assertEquals(bmcName, bmc.getName());
-        assertEquals(bmcAbbreviation, bmc.getAbbreviation());
-
-        // both institutions should be set to sponsor as default
-        assertTrue(bmc.isSponsor());
-        assertTrue(hku.isSponsor());
-
-        // de-activate sponsorship
-        hku.setSponsor(hkuIsSponsor);
-        assertFalse(hku.isSponsor());
-
-        bmc.setNote(bmcNote);
-        assertEquals(bmcNote, bmc.getNote());
-
-        // check abbreviations
-        hku.setAbbreviation("HK");
-        assertEquals("HK", hku.getAbbreviation());
-
-        // should be able to create institution as not sponsor
-        InstitutionDetail hkuNoSponsor = new InstitutionDetail(hkuName, hkuAbbreviation, hkuIsSponsor);
-        assertFalse(hkuNoSponsor.isSponsor());
-
-    }
-
-    /**
-     * Check that institution specific fields are being saved
-     */
-    public void testCRUD() {
-        // Create/save initial institutions
-        HibernateManager.getInstance().saveOrUpdate(Arrays.asList(hku, bmc));
-
-        // check the abbreviations
-//        InstitutionDetail result = HibernateManager.getInstance().getEntity(InstitutionDetail.class, hku.getId());
-//        assertEquals(hkuAbbreviation, result.getAbbreviation());
-//
-//        // change sponsorship for hku
-//        hku.setSponsor(hkuIsSponsor);
 //        HibernateManager.getInstance().saveOrUpdate(hku);
-//        result = HibernateManager.getInstance().getEntity(InstitutionDetail.class, hku.getId());
-//        assertFalse(result.isSponsor());
+
+        bmc = new InstitutionDetail(bmcName, bmcAbbreviation);
+
+        CourseDetail course = new CourseDetail(rohtoCourseName);
+        course.setDescription(rohtoDescription);
+        course.addSponsor(hku);
+        course.addSponsor(bmc);
+        HibernateManager.getInstance().saveOrUpdate(course);
+
+//        CourseDetail result = HibernateManager.getInstance().getEntity(CourseDetail.class, 1);
+//        logger.debug(result.toString());
+//        Session session = HibernateManager.getInstance().startTransaction();
+        List<CourseDetail> result = HibernateManager.getInstance().getAllEntities(CourseDetail.class);
+        for(CourseDetail c : result) {
+            logger.debug(c.toString());
+            assertEquals(rohtoCourseName, c.getName());
+            assertFalse(c.getId() == 0);
+            logger.debug(c.getName());
+            logger.debug(c.getId());
+            for(InstitutionDetail s : c.getSponsors()) {
+                String abbr = s.getAbbreviation();
+                assertTrue(abbr.equals(bmcAbbreviation) || abbr.equals(hkuAbbreviation));
+                assertFalse(s.getId() == 0);
+                logger.debug(abbr);
+                logger.debug(s.getId());
+            }
+        }
+
     }
-
-    public void testEquality() {
-        HibernateManager.getInstance().saveOrUpdate(Arrays.asList(bmc, hku));
-
-        InstitutionDetail result = HibernateManager.getInstance().getEntity(InstitutionDetail.class, bmc.getId());
-        // should be 'logically' equal
-        assertEquals(bmc, result);
-        // should not be 'physically' equal
-        assertFalse(bmc == result);
-    }
-
 }

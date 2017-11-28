@@ -3,37 +3,89 @@ package org.catalyst.courses.entities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name="translationDetail")
-@PrimaryKeyJoinColumn(name="detail_id")
-public class TranslationDetail extends  Detail implements AbstractDetail {
-    private static Logger logger = LogManager.getLogger(TranslationDetail.class);
+@Table(name="translation")
+public class TranslationDetail extends Detail {
+    private final static Logger logger = LogManager.getLogger(TranslationDetail.class);
 
-    public TranslationDetail() {
-        // no-arg constructor for hibernate
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    @Column(name = "translation_id")
+    private int id;
+
+//    @OneToOne
+//    @Cascade({CascadeType.SAVE_UPDATE})
+//    @JoinColumn(name = "detail_id")
+//    private Detail detail;
+
+    @ManyToMany(mappedBy = "translations")
+    protected Set<CourseDetail> courses = new HashSet<>();
+
+    protected TranslationDetail() {
+        // no-op constructor for hibernate, cannot be private
     }
 
+    protected TranslationDetail(String name, String abbreviation) {
+        setName(name);
+        setAbbreviation(abbreviation);
+    }
+
+    public Integer getId() {
+        return this.id;
+    }
+//
+//    public void deactivate() {
+//        detail.deactivate();
+//    }
+//
+//
+//    public void activate() {
+//        detail.activate();
+//    }
+//
+//
+//    public boolean isActive() {
+//        return detail.isActive();
+//    }
+//
+//
+//    public String getName() {
+//        return detail.getName();
+//    }
+//
+//
+//    public void setName(String name) {
+//        detail.setName(name);
+//    }
+//
+//
+//    public String getNote() {
+//        return detail.getNote();
+//    }
+//
+//
+//    public void setNote(String note) {
+//        detail.setNote(note);
+//    }
+//
+//
+//    public String getAbbreviation() {
+//        return detail.getAbbreviation();
+//    }
+
+    public void addCourse(CourseDetail course) {
+        courses.add(course);
+    }
+
+    public void removeCourse(CourseDetail course) {
+        courses.remove(course);
+    }
     /**
-     * Creates a new translation and sets it to active
-     * @param translationName
-     */
-    public TranslationDetail(String translationName, String abbreviation) {
-        super(translationName);
-        this.abbreviation = abbreviation;
-    }
-
-    // TODO: cclean up the detail contsrtuctor stuff and things
-    public TranslationDetail(String translationName, String abbreviation, String note) {
-        super(translationName, note);
-        this.abbreviation = abbreviation;
-    }
-
-    /**
-     * Abbreviations are required, override to check for null and empty string
+     * An abbreviation is required
      * @param abbreviation
      */
     public void setAbbreviation(String abbreviation) {
@@ -42,39 +94,10 @@ public class TranslationDetail extends  Detail implements AbstractDetail {
         }
 
         if (abbreviation.isEmpty()) {
-            logger.warn("Trying to change entity name from ["+this.abbreviation+"] to ["+abbreviation+"]. This is likely to cause" +
+            logger.warn("Trying to change entity name from ["+getAbbreviation()+"] to ["+abbreviation+"]. This is likely to cause" +
                     " errors downstream.");
         }
-
-        this.abbreviation = abbreviation;
+        super.setAbbreviation(abbreviation);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-
-        TranslationDetail that = (TranslationDetail) o;
-
-        return abbreviation.equals(that.abbreviation);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + abbreviation.hashCode();
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "TranslationDetail{" +
-                "id='" + id + '\'' +
-                ", abbreviation='" + abbreviation + '\'' +
-                ", active=" + active +
-                ", name='" + name + '\'' +
-                ", note='" + note + '\'' +
-                '}';
-    }
 }

@@ -34,15 +34,15 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">create</property>
 
-        <!--<mapping class="org.catalyst.courses.entities.Course"/>-->
-        <!--<mapping class="org.catalyst.courses.entities.AudienceDetail"/>-->
-        <!--<mapping class="org.catalyst.courses.entities.CompetencyDetail"/>-->
-        <!--<mapping class="org.catalyst.courses.entities.CourseDetail"/>-->
-        <!--<mapping class="org.catalyst.courses.entities.InstitutionDetail"/>-->
+        <!--<mapping class="Course"/>-->
+        <!--<mapping class="AudienceDetail"/>-->
+        <!--<mapping class="CompetencyDetail"/>-->
+        <!--<mapping class="CourseDetail"/>-->
+        <!--<mapping class="InstitutionDetail"/>-->
         <mapping class="org.catalyst.courses.test.InstitutionDetail_new"/>
         <mapping class="org.catalyst.courses.test.CourseDetail_new"/>
         <mapping class="org.catalyst.courses.test.Detail_new"/>
-        <!--<mapping class="org.catalyst.courses.entities.TranslationDetail"/>-->
+        <!--<mapping class="TranslationDetail"/>-->
     </session-factory>
 
 </hibernate-configuration>

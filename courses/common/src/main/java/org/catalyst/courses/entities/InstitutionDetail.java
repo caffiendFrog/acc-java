@@ -4,92 +4,129 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
-/**
- * Extending translation because translation already has checks for requiring abbreviations. Just adding to that
- */
+
 @Entity
-@Table(name = "institutionDetail")
-//@PrimaryKeyJoinColumn(name="detail_id")
-public class InstitutionDetail extends TranslationDetail {
+@Table(name="institution")
+public class InstitutionDetail extends Detail {
     private final static Logger logger = LogManager.getLogger(InstitutionDetail.class);
 
-    public int getInstitutionDetail_id() {
-        return institutionDetail_id;
-    }
-
-    public void setInstitutionDetail_id(int institutionDetail_id) {
-        this.institutionDetail_id = institutionDetail_id;
-    }
-
     @Id
-    @GeneratedValue
-    @Column(name="institutionDetail_id")
-    private int institutionDetail_id;
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    @Column(name = "institution_id")
+    private int id;
+
+//    @OneToOne
+//    @Cascade({CascadeType.SAVE_UPDATE})
+//    @JoinColumn(name = "detail_id")
+//    private Detail detail;
 
     @Column(name = "sponsor")
     private boolean sponsor;
 
-    public InstitutionDetail() {
-        //no-arg constructor for hibernate
+    @ManyToMany(mappedBy = "sponsors")
+    protected Set<CourseDetail> courses = new HashSet<>();
+
+    protected InstitutionDetail() {
+        // no-op constructor for hibernate, cannot be private
     }
+
+//    /**
+//     * Convenience constructor for unit testing
+//     * @param detail
+//     */
+//    protected InstitutionDetail(Detail detail) {
+//        this.detail = detail;
+//    }
+
+    public InstitutionDetail(String name, String abbreviation) {
+        setName(name);
+        setAbbreviation(abbreviation);
+    }
+
+//    public void deactivate() {
+//        detail.deactivate();
+//    }
+//
+//
+//    public void activate() {
+//        detail.activate();
+//    }
+//
+//
+//    public boolean isActive() {
+//        return detail.isActive();
+//    }
+//
+//
+//    public String getName() {
+//        return detail.getName();
+//    }
+//
+//
+//    public void setName(String name) {
+//        detail.setName(name);
+//    }
+//
+//
+//    public String getNote() {
+//        return detail.getNote();
+//    }
+//
+//
+//    public void setNote(String note) {
+//        detail.setNote(note);
+//    }
+//
+//
+//    public String getAbbreviation() {
+//        return detail.getAbbreviation();
+//    }
 
     /**
-     * Creates a new institution, sets it to active and assumes it is a sponsor
-     * @param institutionName
+     * An abbreviation is required
      * @param abbreviation
      */
-    public InstitutionDetail(String institutionName, String abbreviation) {
-        super(institutionName, abbreviation);
-        this.sponsor = false;
-    }
+    public void setAbbreviation(String abbreviation) {
+        if (abbreviation == null) {
+            throw new NullPointerException("Cannot set entity name to null.");
+        }
 
-    public InstitutionDetail(String institutionName, String abbreviation, String note) {
-        super(institutionName, abbreviation);
-        this.note = note;
-        this.sponsor = false;
-    }
-
-    public InstitutionDetail(String institutionName, String abbreviation, boolean isSponsor) {
-        super(institutionName, abbreviation);
-        this.sponsor = isSponsor;
+        if (abbreviation.isEmpty()) {
+            logger.warn("Trying to change entity name from ["+getAbbreviation()+"] to ["+abbreviation+"]. This is likely to cause" +
+                    " errors downstream.");
+        }
+        super.setAbbreviation(abbreviation);
     }
 
     public boolean isSponsor() {
         return sponsor;
     }
 
-    public void setSponsor(boolean sponsor) { this.sponsor = sponsor; }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-
-        InstitutionDetail that = (InstitutionDetail) o;
-
-        if (sponsor != that.sponsor) return false;
-        return abbreviation.equals(that.abbreviation);
+    public void setSponsor(boolean sponsor) {
+        this.sponsor = sponsor;
     }
 
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + abbreviation.hashCode();
-        result = 31 * result + (sponsor ? 1 : 0);
-        return result;
+    public void addCourse(CourseDetail course) {
+        courses.add(course);
     }
 
-    @Override
-    public String toString() {
-        return "InstitutionDetail{" +
-                "id='" + id + '\'' +
-                ", abbreviation='" + abbreviation + '\'' +
-                ", sponsor=" + sponsor +
-                ", active=" + active +
-                ", name='" + name + '\'' +
-                ", note='" + note + '\'' +
-                '}';
+    public void removeCourse(CourseDetail course) {
+        courses.remove(course);
     }
+
+    public Integer getId() {
+        return this.id;
+    }
+
+//    @Override
+//    public String toString() {
+//        return "InstitutionDetail{" +
+//                "id=" + id +
+//                ", detail=" + detail +
+//                ", sponsor=" + sponsor +
+//                '}';
+//    }
 }

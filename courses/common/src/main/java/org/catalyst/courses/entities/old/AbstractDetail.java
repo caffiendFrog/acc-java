@@ -1,4 +1,4 @@
-package org.catalyst.courses.entities;
+package org.catalyst.courses.entities.old;
 
 public interface AbstractDetail {
     void deactivate();

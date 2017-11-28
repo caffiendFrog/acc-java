@@ -3,47 +3,88 @@ package org.catalyst.courses.entities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name="audienceDetail")
-@PrimaryKeyJoinColumn(name="detail_id")
+@Table(name = "audience")
 public class AudienceDetail extends Detail {
     private final static Logger logger = LogManager.getLogger(AudienceDetail.class);
 
-    public AudienceDetail() {
-        // no-arg constructor for Hibernate
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    @Column(name = "audience_id")
+    private int id;
+
+//    @OneToOne
+//    @Cascade({CascadeType.SAVE_UPDATE})
+//    @JoinColumn(name = "detail_id")
+//    private Detail detail;
+
+    @ManyToMany(mappedBy = "audiences")
+    protected Set<CourseDetail> courses = new HashSet<>();
+
+    protected AudienceDetail() {
+        // no-op constructor for hibernate, cannot be private
     }
 
-    /**
-     * Creates a new audience and sets it as active
-     * @param audienceName
-     */
-    public AudienceDetail(String audienceName) {
-        super(audienceName);
-        this.abbreviation = null;
+    public AudienceDetail(String name) {
+        setName(name);
     }
 
-    public AudienceDetail(String audienceName, String note) {
-        super(audienceName, note);
-        this.abbreviation = null;
+    public Integer getId() {
+        return this.id;
+    }
+//
+//    public void deactivate() {
+//        detail.deactivate();
+//    }
+//
+//
+//    public void activate() {
+//        detail.activate();
+//    }
+//
+//
+//    public boolean isActive() {
+//        return detail.isActive();
+//    }
+//
+//
+//    public String getName() {
+//        return detail.getName();
+//    }
+//
+//
+//    public void setName(String name) {
+//        detail.setName(name);
+//    }
+//
+//
+//    public String getNote() {
+//        return detail.getNote();
+//    }
+//
+//
+//    public void setNote(String note) {
+//        detail.setNote(note);
+//    }
+//
+//
+//    public String getAbbreviation() {
+//        return detail.getAbbreviation();
+//    }
+//
+//    public void setAbbreviation(String abbreviation) {
+//        detail.setAbbreviation(abbreviation);
+//    }
+
+    public void addCourse(CourseDetail course) {
+        courses.add(course);
     }
 
-    @Override
-    public void setAbbreviation(String abbreviation) {
-        // Audiences don't have abbreviations, override to avoid accidentally setting
-        this.abbreviation = null;
-    }
-
-    @Override
-    public String toString() {
-        return "AudienceDetail{" +
-                "id=" + id +
-                ", active=" + active +
-                ", name='" + name + '\'' +
-                ", note='" + note + '\'' +
-                '}';
+    public void removeCourse(CourseDetail course) {
+        courses.remove(course);
     }
 }

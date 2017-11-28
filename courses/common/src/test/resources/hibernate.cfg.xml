@@ -15,7 +15,7 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/local_acc?createDatabaseIfNotExist=true</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/local_acc_entities?createDatabaseIfNotExist=true</property>
         <property name="connection.username">root</property>
         <property name="connection.password"/>
 
@@ -34,14 +34,21 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">create</property>
 
-        <!--<mapping class="org.catalyst.courses.entities.Course"/>-->
-        <!--<mapping class="org.catalyst.courses.entities.AudienceDetail"/>-->
-        <!--<mapping class="org.catalyst.courses.entities.CompetencyDetail"/>-->
-        <!--<mapping class="org.catalyst.courses.entities.CourseDetail"/>-->
-        <!--<mapping class="org.catalyst.courses.entities.InstitutionDetail"/>-->
-        <mapping class="org.catalyst.courses.test.InstitutionDetail_new"/>
-        <mapping class="org.catalyst.courses.test.CourseDetail_new"/>
-        <!--<mapping class="org.catalyst.courses.entities.TranslationDetail"/>-->
+        <!--<mapping class="org.catalyst.courses.entities.old.Course"/>-->
+        <!--&lt;!&ndash;<mapping class="AudienceDetail"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<mapping class="CompetencyDetail"/>&ndash;&gt;-->
+        <!--<mapping class="org.catalyst.courses.entities.old.CourseDetail"/>-->
+        <!--<mapping class="org.catalyst.courses.entities.old.InstitutionDetail"/>-->
+        <!--<mapping class="org.catalyst.courses.entities.old.Detail"/>-->
+        <!--<mapping class="org.catalyst.courses.test.InstitutionDetail_new"/>-->
+        <!--<mapping class="org.catalyst.courses.test.CourseDetail_new"/>-->
+        <!--<mapping class="org.catalyst.courses.entities.old.TranslationDetail"/>-->
+        <mapping class="org.catalyst.courses.entities.Detail"/>
+        <mapping class="org.catalyst.courses.entities.CourseDetail"/>
+        <mapping class="org.catalyst.courses.entities.InstitutionDetail"/>
+        <mapping class="org.catalyst.courses.entities.TranslationDetail"/>
+        <mapping class="org.catalyst.courses.entities.CompetencyDetail"/>
+        <mapping class="org.catalyst.courses.entities.AudienceDetail"/>
     </session-factory>
 
 </hibernate-configuration>
