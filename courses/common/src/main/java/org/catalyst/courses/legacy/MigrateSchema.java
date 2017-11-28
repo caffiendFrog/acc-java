@@ -2,7 +2,7 @@ package org.catalyst.courses.legacy;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.catalyst.courses.entities.old.*;
+import org.catalyst.courses.entities.*;
 import org.catalyst.courses.legacy.entities.*;
 import org.catalyst.services.HibernateManager;
 import org.hibernate.Session;
@@ -39,12 +39,12 @@ public class MigrateSchema {
 //    private static List<LegacyKeyword> legacyKeywords = new ArrayList<>();
 //    private static List<LegacyTranslation> legacyTranslations = new ArrayList<>();
 
-    private static Map<Integer, CourseDetail> legacyIdToCourseDetail = new HashMap<>();
-    private static Map<Integer, CompetencyDetail> legacyIdToCompetencyDetail = new HashMap<>();
-    private static Map<Integer, InstitutionDetail> legacyIdToInstitutionDetail = new HashMap<>();
-    private static Map<Integer, InstitutionDetail> legacySponsorIdToInstitutionDetail = new HashMap<>();
-    private static Map<Integer, AudienceDetail> legacyIdToAudienceDetail = new HashMap<>();
-    private static Map<Integer, TranslationDetail> legacyIdToTranslationDetail = new HashMap<>();
+    private static Map<Integer, Course> legacyIdToCourseDetail = new HashMap<>();
+    private static Map<Integer, Competency> legacyIdToCompetencyDetail = new HashMap<>();
+    private static Map<Integer, Institution> legacyIdToInstitutionDetail = new HashMap<>();
+    private static Map<Integer, Institution> legacySponsorIdToInstitutionDetail = new HashMap<>();
+    private static Map<Integer, Audience> legacyIdToAudienceDetail = new HashMap<>();
+    private static Map<Integer, Translation> legacyIdToTranslationDetail = new HashMap<>();
 
     private static SessionFactory initializeSessionFactory() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
@@ -115,34 +115,34 @@ public class MigrateSchema {
     private static void migrateCourses() {
         List<LegacyCourse> legacyCourses = getListFromDB(LegacyCourse.class);
         for (LegacyCourse lc : legacyCourses) {
-            CourseDetail courseDetail = buildCourseDetail(lc);
-            newSchemaManager.saveOrUpdate(courseDetail);
-            legacyIdToCourseDetail.put(lc.getId(), courseDetail);
+            Course course = buildCourseDetail(lc);
+            newSchemaManager.saveOrUpdate(course);
+            legacyIdToCourseDetail.put(lc.getId(), course);
         }
     }
 
     private static void migrateKeywords() {
         List<LegacyKeyword> legacyKeywords = getListFromDB(LegacyKeyword.class);
         for (LegacyKeyword lk : legacyKeywords) {
-            CompetencyDetail competencyDetail = new CompetencyDetail(lk.getName(), lk.getNote());
-            newSchemaManager.saveOrUpdate(competencyDetail);
-            legacyIdToCompetencyDetail.put(lk.getId(), competencyDetail);
+//            Competency competencyDetail = new Competency(lk.getName(), lk.getNote());
+//            newSchemaManager.saveOrUpdate(competencyDetail);
+//            legacyIdToCompetencyDetail.put(lk.getId(), competencyDetail);
         }
     }
 
     private static void migrateAudiences() {
         List<LegacyAudience> legacyAudiences = getListFromDB(LegacyAudience.class);
         for (LegacyAudience la : legacyAudiences) {
-            AudienceDetail audienceDetail = new AudienceDetail(la.getName(), la.getNote());
-            newSchemaManager.saveOrUpdate(audienceDetail);
-            legacyIdToAudienceDetail.put(la.getId(), audienceDetail);
+//            Audience audienceDetail = new Audience(la.getName(), la.getNote());
+//            newSchemaManager.saveOrUpdate(audienceDetail);
+//            legacyIdToAudienceDetail.put(la.getId(), audienceDetail);
         }
     }
 
     private static void migrateTranslations() {
 //        List<LegacyTranslation> legacyTranslations = getListFromDB(LegacyTranslation.class);
 //        for (LegacyTranslation lt : legacyTranslations) {
-////            TranslationDetail translationDetail = new TranslationDetail(lt.getName(), lt.getAbbreviation(), lt.getNote());
+////            Translation translationDetail = new Translation(lt.getName(), lt.getAbbreviation(), lt.getNote());
 //            newSchemaManager.saveOrUpdate(translationDetail);
 //            legacyIdToTranslationDetail.put(lt.getId(), translationDetail);
 //        }
@@ -151,11 +151,11 @@ public class MigrateSchema {
     private static void migrateInstitutions() {
 //        List<LegacySponsor> legacySponsors = getListFromDB(LegacySponsor.class);
 //        List<LegacyInstitution> legacyInstitutions = getListFromDB(LegacyInstitution.class);
-//        Map<String, InstitutionDetail> abbreviationToInstitutionDetails = new HashMap<>();
+//        Map<String, Institution> abbreviationToInstitutionDetails = new HashMap<>();
 //
 //        // first migrate the institutions
 //        for (LegacyInstitution li : legacyInstitutions) {
-//            InstitutionDetail institutionDetail = new InstitutionDetail(li.getName(), li.getAbbreviation(), li.getNote());
+//            Institution institutionDetail = new Institution(li.getName(), li.getAbbreviation(), li.getNote());
 //            abbreviationToInstitutionDetails.put(li.getAbbreviation(), institutionDetail);
 //            legacyIdToInstitutionDetail.put(li.getId(), institutionDetail);
 //        }
@@ -164,33 +164,33 @@ public class MigrateSchema {
 //        for (LegacySponsor ls : legacySponsors) {
 //            // There is an inconsistency with the abbreviation of Childrens' Hospital. Need to manually normalize here
 //            String abbreviation = ls.getAbbreviation().equals("CHB") ? "Childrens" : ls.getAbbreviation();
-//            InstitutionDetail institutionDetail = abbreviationToInstitutionDetails.get(abbreviation);
+//            Institution institutionDetail = abbreviationToInstitutionDetails.get(abbreviation);
 //            institutionDetail.setSponsor(true);
 //            newSchemaManager.saveOrUpdate(institutionDetail);
 //            legacySponsorIdToInstitutionDetail.put(ls.getId(), institutionDetail);
 //        }
     }
 
-    private static CourseDetail buildCourseDetail(LegacyCourse lc) {
+    private static Course buildCourseDetail(LegacyCourse lc) {
         int legacyCourseId = lc.getId();
-        CourseDetail courseDetail = new CourseDetail(lc.getName());
+        Course course = new Course(lc.getName());
 //        courseDetail.setNote(lc.getNote());
-        if (lc.isArchived()) {
-            courseDetail.archive();
-        } else {
-            courseDetail.unArchive();
-        }
-        courseDetail.setContactEmail(lc.getContactEmail());
-        courseDetail.setContactUrl(lc.getContactUrl());
-        courseDetail.setDate(lc.getCourseDate());
-        courseDetail.setDateInfo(lc.getDateInfo());
-        courseDetail.setDescription(lc.getDescription());
-        courseDetail.setHours(lc.getHours());
-        courseDetail.setMaxEnroll(lc.getMaxEnroll());
-        courseDetail.setSearchBlob(getSearchBlob(legacyCourseId));
-        courseDetail.setSortDate(lc.getSortDate());
-        courseDetail.setWebcast(lc.isWebcast());
-        return courseDetail;
+//        if (lc.isArchived()) {
+//            courseDetail.archive();
+//        } else {
+//            courseDetail.unArchive();
+//        }
+//        courseDetail.setContactEmail(lc.getContactEmail());
+//        courseDetail.setContactUrl(lc.getContactUrl());
+//        courseDetail.setDate(lc.getCourseDate());
+//        courseDetail.setDateInfo(lc.getDateInfo());
+//        courseDetail.setDescription(lc.getDescription());
+//        courseDetail.setHours(lc.getHours());
+//        courseDetail.setMaxEnroll(lc.getMaxEnroll());
+//        courseDetail.setSearchBlob(getSearchBlob(legacyCourseId));
+//        courseDetail.setSortDate(lc.getSortDate());
+//        courseDetail.setWebcast(lc.isWebcast());
+        return course;
     }
 
     private static String getSearchBlob(final int legacyCourseId) {

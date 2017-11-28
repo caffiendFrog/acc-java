@@ -17,21 +17,21 @@ public class InstitutionDetailTest extends TestCase {
     protected final static String bmcAbbreviation = "BMC";
     protected final static String bmcNote = "Cartoon penguins allowed only";
     protected final static boolean hkuIsSponsor = false;
-    protected final static String t1Name = "TranslationDetail to Alpacas";
+    protected final static String t1Name = "Translation to Alpacas";
     protected final static String t1Abbreviation = "T1";
     protected static final String rohtoCourseName = "Partiality confounded Rohto-effect";
     protected static final String rohtoDescription = "Cure for red eyes and staring at monitors until the eyeballs bleed dry.";
 
-    private InstitutionDetail hku;
-    private InstitutionDetail bmc;
+    private Institution hku;
+    private Institution bmc;
 
     public void testSanity() {
-        hku = new InstitutionDetail(hkuName, hkuAbbreviation);
+        hku = new Institution(hkuName, hkuAbbreviation);
 //        HibernateManager.getInstance().saveOrUpdate(hku);
 
-        bmc = new InstitutionDetail(bmcName, bmcAbbreviation);
+        bmc = new Institution(bmcName, bmcAbbreviation);
 
-        CourseDetail course = new CourseDetail(rohtoCourseName);
+        Course course = new Course(rohtoCourseName);
         course.setDescription(rohtoDescription);
         course.addSponsor(hku);
         course.addSponsor(bmc);
@@ -40,14 +40,14 @@ public class InstitutionDetailTest extends TestCase {
 //        CourseDetail result = HibernateManager.getInstance().getEntity(CourseDetail.class, 1);
 //        logger.debug(result.toString());
 //        Session session = HibernateManager.getInstance().startTransaction();
-        List<CourseDetail> result = HibernateManager.getInstance().getAllEntities(CourseDetail.class);
-        for(CourseDetail c : result) {
+        List<Course> result = HibernateManager.getInstance().getAllEntities(Course.class);
+        for(Course c : result) {
             logger.debug(c.toString());
             assertEquals(rohtoCourseName, c.getName());
             assertFalse(c.getId() == 0);
             logger.debug(c.getName());
             logger.debug(c.getId());
-            for(InstitutionDetail s : c.getSponsors()) {
+            for(Institution s : c.getSponsors()) {
                 String abbr = s.getAbbreviation();
                 assertTrue(abbr.equals(bmcAbbreviation) || abbr.equals(hkuAbbreviation));
                 assertFalse(s.getId() == 0);

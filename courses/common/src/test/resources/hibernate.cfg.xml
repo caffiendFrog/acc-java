@@ -43,12 +43,12 @@
         <!--<mapping class="org.catalyst.courses.test.InstitutionDetail_new"/>-->
         <!--<mapping class="org.catalyst.courses.test.CourseDetail_new"/>-->
         <!--<mapping class="org.catalyst.courses.entities.old.TranslationDetail"/>-->
-        <mapping class="org.catalyst.courses.entities.Detail"/>
-        <mapping class="org.catalyst.courses.entities.CourseDetail"/>
-        <mapping class="org.catalyst.courses.entities.InstitutionDetail"/>
-        <mapping class="org.catalyst.courses.entities.TranslationDetail"/>
-        <mapping class="org.catalyst.courses.entities.CompetencyDetail"/>
-        <mapping class="org.catalyst.courses.entities.AudienceDetail"/>
+        <!--<mapping class="org.catalyst.courses.entities.Detail"/>-->
+        <mapping class="org.catalyst.courses.entities.Course"/>
+        <mapping class="org.catalyst.courses.entities.Institution"/>
+        <mapping class="org.catalyst.courses.entities.Translation"/>
+        <mapping class="org.catalyst.courses.entities.Competency"/>
+        <mapping class="org.catalyst.courses.entities.Audience"/>
     </session-factory>
 
 </hibernate-configuration>
