@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 public class InstitutionDetailTest extends TestCase {
     private final static Logger logger = LogManager.getLogger(InstitutionDetailTest.class);
 
-    // protected static so we can reference these values in CourseDetailTest
+    // protected static so we can reference these values in BasicCourseDetailTest
     protected final static String hkuName = "Hello Kitty University";
     protected final static String bmcName = "Badtz Maru College";
     protected final static String hkuAbbreviation = "HKU";
@@ -58,7 +58,7 @@ public class InstitutionDetailTest extends TestCase {
 //        assertEquals(bmcName, bmc.getName());
 //        assertEquals(bmcAbbreviation, bmc.getAbbreviation());
 //
-//        // both institutions should be set to sponsor as default
+//        // both sponsors should be set to sponsor as default
 //        assertTrue(bmc.isSponsor());
 //        assertTrue(hku.isSponsor());
 //
@@ -83,7 +83,7 @@ public class InstitutionDetailTest extends TestCase {
 //     * Check that institution specific fields are being saved
 //     */
 //    public void testCRUD() {
-//        // Create/save initial institutions
+//        // Create/save initial sponsors
 //        HibernateManager.getInstance().saveOrUpdate(Arrays.asList(hku, bmc));
 //
 //        // check the abbreviations

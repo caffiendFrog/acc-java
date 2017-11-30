@@ -8,6 +8,9 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -65,17 +68,22 @@ public class HibernateManager {
         return result;
     }
 
-    public List getAllEntities(final Class clazz) {
+    public <T> List<T> getAllEntities(final Class<T> clazz) {
+        CriteriaBuilder builder = sessionFactory.getCriteriaBuilder();
+        CriteriaQuery<T>  criteria = builder.createQuery(clazz);
+        Root<T> root = criteria.from(clazz);
+        criteria.select(root);
         final Session session = startTransaction();
-        List result = session.createQuery("from "+clazz.getSimpleName()).list();
+        if (DEBUG) logger.debug(session.createQuery(criteria).getQueryString());
+        List<T> results = session.createQuery(criteria).getResultList();
         endTransaction(session);
-        return result;
+        return results;
     }
 
     public List query(final Class entityClazz, final String clause) {
         final String hql = "SELECT * FROM " + entityClazz.getSimpleName() + " WHERE " + clause;
         final Session session = startTransaction();
-        if (DEBUG) { logger.debug("QUERY: ["+hql+"]"); }
+        if (DEBUG) logger.debug("QUERY: ["+hql+"]");
         final List result = session.createQuery(hql).list();
         endTransaction(session);
         return result;

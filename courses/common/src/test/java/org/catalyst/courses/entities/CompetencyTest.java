@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 /**
  * Testing all fields to make sure we don't accidentally override methods incorrectly in the future
  */
+@SuppressWarnings("Duplicates")
 public class CompetencyTest extends TestCase {
     private final static Logger logger = LogManager.getLogger(CompetencyTest.class);
 
@@ -22,19 +23,27 @@ public class CompetencyTest extends TestCase {
     protected final static String chemName = "Caffiene";
     protected final static String chemNote = "Required for proper functions of the neuronic regions.";
 
-    private Competency bio;
-    private Competency chem;
+    private final static Competency bio = new Competency(bioName);
+    private final static Competency chem = new Competency(chemName);
+
 
     public void setUp() {
-        bio = new Competency(bioName);
-        chem = new Competency(chemName);
+        // reset competencies
+        bio.setName(bioName);
+        bio.setNote(null);
+        bio.activate();
+        bio.courseDetails.clear();
+
+        chem.setName(chemName);
+        chem.setNote(null);
+        chem.activate();
+        chem.courseDetails.clear();
     }
 
     /**
      * Basic unit test to check the behavior of the required name field and also to check that non-applicable fields
      * (abbreviation) is always null and can't be set accidentally.
      */
-    @SuppressWarnings("Duplicates")
     public void testBasicCompetency() {
         assertEquals(bioName, bio.getName());
 
@@ -52,7 +61,6 @@ public class CompetencyTest extends TestCase {
     /**
      * Should be able to update require fields, but shouldn't be able to set them to null
      */
-    @SuppressWarnings("Duplicates")
     public void testRequired() {
         bio.setName("qwerty");
         assertEquals("qwerty", bio.getName());
@@ -76,6 +84,7 @@ public class CompetencyTest extends TestCase {
 
         // Read them back
         Map<Integer, Competency> idToCompetencies = getIdToCompetencies();
+        assertEquals(2, idToCompetencies.size());
         assertEquals(chem.getNote(), idToCompetencies.get(chem.getId()).getNote());
 
         // Update one of the competencies and save
@@ -85,6 +94,7 @@ public class CompetencyTest extends TestCase {
 
         // Read them back
         idToCompetencies = getIdToCompetencies();
+        assertEquals(2, idToCompetencies.size());
         assertEquals(bio.getNote(), idToCompetencies.get(bio.getId()).getNote());
         assertFalse(idToCompetencies.get(chem.getId()).isActive());
     }
@@ -98,13 +108,17 @@ public class CompetencyTest extends TestCase {
 
         // should not be 'physically' equal
         assertFalse(chem == result);
+
+        // we should still only have 2 rows
+        Map<Integer, Competency> idToCompetencies = getIdToCompetencies();
+        assertEquals(2, idToCompetencies.size());
     }
 
     private void saveCompetencies() {
         HibernateManager.getInstance().saveOrUpdate(Arrays.asList(bio, chem));
     }
 
-    private Map<Integer, Competency> getIdToCompetencies() {
+    protected static Map<Integer, Competency> getIdToCompetencies() {
         List<Competency> competencies = HibernateManager.getInstance().getAllEntities(Competency.class);
         return competencies.stream().collect(Collectors.toMap(Competency::getId, Function.identity()));
     }

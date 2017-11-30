@@ -39,6 +39,8 @@
         <mapping class="org.catalyst.courses.entities.Translation"/>
         <mapping class="org.catalyst.courses.entities.Competency"/>
         <mapping class="org.catalyst.courses.entities.Audience"/>
+        <mapping class="org.catalyst.courses.entities.CourseDetails"/>
+        <mapping class="org.catalyst.courses.entities.Sponsor"/>
 
         <!-- Testing entities only -->
         <mapping class="org.catalyst.courses.entities.ConcreteDetail"/>

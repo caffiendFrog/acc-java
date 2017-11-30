@@ -18,8 +18,8 @@ public class Translation extends DetailWithAbbreviation {
     @Column(name = "translation_id")
     private int id;
 
-    @ManyToMany(mappedBy = "translations")
-    protected Set<Course> courses = new HashSet<>();
+    @ManyToMany(mappedBy = "translations", fetch = FetchType.EAGER)
+    protected Set<CourseDetails> courseDetails = new HashSet<>();
 
     protected Translation() {
         // no-op constructor for hibernate, cannot be private
@@ -33,12 +33,37 @@ public class Translation extends DetailWithAbbreviation {
         return this.id;
     }
 
-    public void addCourse(Course course) {
-        courses.add(course);
+    /**
+     * @param courseDetails
+     * @return <tt>true</tt> if this set did not already contain the specified
+     *         courseDetails
+     */
+    protected boolean addCourseDetails(CourseDetails courseDetails) {
+        return this.courseDetails.add(courseDetails);
     }
 
-    public void removeCourse(Course course) {
-        courses.remove(course);
+    /**
+     * @param courseDetails
+     * @return <tt>true</tt> if this set contained the specified courseDetails
+     */
+    protected boolean removeCourseDetails(CourseDetails courseDetails) { return this.courseDetails.remove(courseDetails); }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Translation that = (Translation) o;
+
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + id;
+        return result;
     }
 
     @Override

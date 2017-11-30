@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 /**
  * Testing all fields to make sure we don't accidentally override methods incorrectly in the future
  */
+@SuppressWarnings("Duplicates")
 public class AudienceTest extends TestCase {
     private final static Logger logger = LogManager.getLogger(AudienceTest.class);
 
@@ -22,15 +23,23 @@ public class AudienceTest extends TestCase {
     protected final static String postDocName = "Post Doc";
     protected final static String facultyNote = "New faculty in the past 5 years only.";
 
-    private Audience faculty;
-    private Audience postDoc;
+    private final static Audience faculty = new Audience(facultyName);
+    private final static Audience postDoc = new Audience(postDocName);
 
     public void setUp() {
-        faculty = new Audience(facultyName);
-        postDoc = new Audience(postDocName);
+        // reset entities
+        faculty.setName(facultyName);
+        faculty.setNote(null);
+        faculty.activate();
+        faculty.courseDetails.clear();
+
+        postDoc.setName(postDocName);
+        postDoc.setNote(null);
+        postDoc.activate();
+        postDoc.courseDetails.clear();
+
     }
 
-    @SuppressWarnings("Duplicates")
     public void testBasicAudience() {
         assertEquals(facultyName, faculty.getName());
 
@@ -48,7 +57,6 @@ public class AudienceTest extends TestCase {
     /**
      * Should be able to update require fields, but shouldn't be able to set them to null
      */
-    @SuppressWarnings("Duplicates")
     public void testRequired() {
         postDoc.setName("qwerty");
         assertEquals("qwerty", postDoc.getName());
@@ -70,6 +78,7 @@ public class AudienceTest extends TestCase {
 
         // Read it back and check
         Map<Integer, Audience> idToAudiences = getIdToAudiences();
+        assertEquals(2, idToAudiences.size());
         assertEquals(faculty.getName(), idToAudiences.get(faculty.getId()).getName());
 
         // update one of the audiences
@@ -79,6 +88,7 @@ public class AudienceTest extends TestCase {
 
         // Read them back
         idToAudiences = getIdToAudiences();
+        assertEquals(2, idToAudiences.size());
         assertEquals(faculty.getNote(), idToAudiences.get(faculty.getId()).getNote());
         assertFalse(idToAudiences.get(faculty.getId()).isActive());
     }
@@ -90,13 +100,17 @@ public class AudienceTest extends TestCase {
         assertEquals(faculty, result);
         // should not be 'physically' equal
         assertFalse( faculty == result );
+
+        // Make sure we still only have 2 rows
+        Map<Integer, Audience> idToAudiences = getIdToAudiences();
+        assertEquals(2, idToAudiences.size());
     }
 
     private void saveAudiences() {
         HibernateManager.getInstance().saveOrUpdate(Arrays.asList(faculty, postDoc));
     }
 
-    private Map<Integer, Audience> getIdToAudiences() {
+    protected static Map<Integer, Audience> getIdToAudiences() {
         List<Audience> audiences = HibernateManager.getInstance().getAllEntities(Audience.class);
         return audiences.stream().collect(Collectors.toMap(Audience::getId, Function.identity()));
     }

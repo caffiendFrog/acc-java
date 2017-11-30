@@ -2,63 +2,57 @@ package org.catalyst.courses.entities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
 
-
 @Entity
-@Table(name="institution")
-public class Institution extends DetailWithAbbreviation {
+@DiscriminatorValue("INSTITUTION")
+public class Institution extends BaseInstitution {
     private final static Logger logger = LogManager.getLogger(Institution.class);
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator="table-generator")
-    @TableGenerator(name = "table-generator", pkColumnValue = "institution_id")
-    @Column(name = "institution_id")
-    private int id;
-
-    @Column(name = "sponsor")
-    private boolean sponsor;
-
-    @ManyToMany(mappedBy = "sponsors")
+    @OneToMany(mappedBy = "institution")
+    @Cascade({CascadeType.SAVE_UPDATE})
     protected Set<Course> courses = new HashSet<>();
 
     protected Institution() {
         // no-op constructor for hibernate, cannot be private
     }
 
-    public Institution(String name, String abbreviation) {
+    protected Institution(String name, String abbreviation) {
         super(name, abbreviation);
-        this.sponsor = false;
+        setSponsor(false);
     }
 
-    public Integer getId() {
-        return this.id;
+    public boolean addCourse(Course course) {
+        boolean result =  courses.add(course);
+//        course.setInstitution(this);
+        return result;
     }
 
-    public boolean isSponsor() {
-        return sponsor;
+    public boolean removeCourse(Course course) {
+        boolean result = courses.remove(course);
+//        course.setInstitution(null);
+        return result;
     }
 
-    public void setSponsor(boolean sponsor) {
-        this.sponsor = sponsor;
-    }
-
-    public void addCourse(Course course) {
-        courses.add(course);
-    }
-
-    public void removeCourse(Course course) {
-        courses.remove(course);
+    public BaseInstitution getAsBaseInstitution() {
+        return this;
     }
 
     @Override
-    public String toString() {
-        return "Institution{" +
-                "id=" + id +
-                ", sponsor=" + sponsor +
-                "} " + super.toString();
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        return result;
     }
 }

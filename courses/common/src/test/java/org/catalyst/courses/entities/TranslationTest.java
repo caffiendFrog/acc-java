@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 /**
  * Testing all fields to make sure we don't accidentally override methods incorrectly in the future
  */
+@SuppressWarnings("Duplicates")
 public class TranslationTest extends TestCase {
     private final static Logger logger = LogManager.getLogger(TranslationTest.class);
 
@@ -23,15 +24,22 @@ public class TranslationTest extends TestCase {
     protected final static String t2Abbreviation = "T2";
     protected final static String t2Note = "Robots must not be operating with windows. Only doors.";
 
-    private Translation t1;
-    private Translation t2;
+    private final static Translation t1 = new Translation(t1Name, t1Abbreviation);
+    private final static Translation t2 = new Translation(t2Name, t2Abbreviation);
 
     public void setUp() {
-        t1 = new Translation(t1Name, t1Abbreviation);
-        t2 = new Translation(t2Name, t2Abbreviation);
+        // reset entities
+        t1.setName(t1Name);
+        t1.setNote(null);
+        t1.setAbbreviation(t1Abbreviation);
+        t1.courseDetails.clear();
+
+        t2.setName(t2Name);
+        t2.setNote(null);
+        t2.setAbbreviation(t2Abbreviation);
+        t2.courseDetails.clear();
     }
 
-    @SuppressWarnings("Duplicates")
     public void testBasicTranslation() {
         assertEquals(t1Name, t1.getName());
         assertEquals(t2Abbreviation, t2.getAbbreviation());
@@ -50,7 +58,6 @@ public class TranslationTest extends TestCase {
     /**
      * Should be able to update require fields, but shouldn't be able to set them to null
      */
-    @SuppressWarnings("Duplicates")
     public void testRequired() {
         t1.setAbbreviation("t1_t1");
         assertEquals("t1_t1", t1.getAbbreviation());
@@ -83,6 +90,7 @@ public class TranslationTest extends TestCase {
         saveTranslations();
 
         Map<Integer,Translation> idToTranslations = getIdToTranslations();
+        assertEquals(2, idToTranslations.size());
         assertEquals(t2Abbreviation, idToTranslations.get(t2.getId()).getAbbreviation());
 
         // Change abbreviation & update
@@ -91,6 +99,7 @@ public class TranslationTest extends TestCase {
         saveTranslations();
 
         idToTranslations = getIdToTranslations();
+        assertEquals(2, idToTranslations.size());
         assertEquals("qwerty", idToTranslations.get(t1.getId()).getAbbreviation());
         assertFalse(idToTranslations.get(t2.getId()).isActive());
     }
@@ -104,13 +113,17 @@ public class TranslationTest extends TestCase {
 
         // should not be 'physically' equal
         assertFalse(t2 == result);
+
+        // should only be 2 rows
+        Map<Integer,Translation> idToTranslations = getIdToTranslations();
+        assertEquals(2, idToTranslations.size());
     }
 
     private void saveTranslations() {
         HibernateManager.getInstance().saveOrUpdate(Arrays.asList(t1, t2));
     }
 
-    private Map<Integer, Translation> getIdToTranslations() {
+    protected static Map<Integer, Translation> getIdToTranslations() {
         List<Translation> translations = HibernateManager.getInstance().getAllEntities(Translation.class);
         return translations.stream().collect(Collectors.toMap(Translation::getId, Function.identity()));
     }

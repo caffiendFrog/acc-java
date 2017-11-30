@@ -18,8 +18,8 @@ public class Competency extends Detail {
     @Column(name = "competency_id")
     private int id;
 
-    @ManyToMany(mappedBy = "competencies")
-    protected Set<Course> courses = new HashSet<>();
+    @ManyToMany(mappedBy = "competencies", fetch = FetchType.EAGER)
+    protected Set<CourseDetails> courseDetails = new HashSet<>();
 
     protected Competency() {
         // no-op constructor for hibernate, cannot be private
@@ -31,16 +31,23 @@ public class Competency extends Detail {
         return this.id;
     }
 
-    public void addCourse(Course course) {
-        courses.add(course);
-    }
-
-    public void removeCourse(Course course) {
-        courses.remove(course);
+    /**
+     * @param courseDetails
+     * @return <tt>true</tt> if this set did not already contain the specified
+     *         courseDetails
+     */
+    protected boolean addCourseDetails(CourseDetails courseDetails) {
+        return this.courseDetails.add(courseDetails);
     }
 
     /**
-     * Intentionally omitting <code>courses</code> because of circular reference
+     * @param courseDetails
+     * @return <tt>true</tt> if this set contained the specified courseDetails
+     */
+    protected boolean removeCourseDetails(CourseDetails courseDetails) { return this.courseDetails.remove(courseDetails); }
+
+    /**
+     * Intentionally omitting <code>courseDetails</code> because of circular reference
      * @param o
      * @return
      */
@@ -56,7 +63,7 @@ public class Competency extends Detail {
     }
 
     /**
-     * Intentionally omitting <code>courses</code> because of circular reference
+     * Intentionally omitting <code>courseDetails</code> because of circular reference
      * @return
      */
     @Override
@@ -67,7 +74,7 @@ public class Competency extends Detail {
     }
 
     /**
-     * Intentionally omitting <code>courses</code> because of circular reference
+     * Intentionally omitting <code>courseDetails</code> because of circular reference
      * @return
      */
     @Override

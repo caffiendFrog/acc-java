@@ -14,17 +14,22 @@ import java.util.stream.Collectors;
 /**
  * Tests only the additional required abbreviation field. Other fields are tested in <code>DetailTest</code>
  */
+@SuppressWarnings("Duplicates")
 public class DetailWithAbbreviationTest extends TestCase {
     private final static Logger logger = LogManager.getLogger(DetailWithAbbreviationTest.class);
 
-    private final String aName = "Marco Polo";
-    private final String aAbbreviation = "MP";
-    private final String anotherAbbrev = "SKC";
+    private final static String aName = "Marco Polo";
+    private final static String aAbbreviation = "MP";
+    private final static String anotherAbbrev = "SKC";
 
-    private ConcreteDetailWithAbbreviation aDetail;
+    private final static ConcreteDetailWithAbbreviation aDetail = new ConcreteDetailWithAbbreviation(aName, aAbbreviation);
 
     public void setUp() {
-        aDetail = new ConcreteDetailWithAbbreviation(aName, aAbbreviation);
+        // reset entity
+        aDetail.setName(aName);
+        aDetail.setAbbreviation(aAbbreviation);
+        aDetail.activate();
+        aDetail.setNote(null);
     }
 
     public void testBasicDetailWithAbbreviation() {
@@ -42,7 +47,6 @@ public class DetailWithAbbreviationTest extends TestCase {
      * Basic unit test to check the behavior of the required abbreviation field. Also check that the setters & getters
      * are correctly associated to the fields we want.
      */
-    @SuppressWarnings("Duplicates")
     public void testRequiredAbbreviation() {
         assertEquals(aAbbreviation, aDetail.getAbbreviation());
 
@@ -71,6 +75,7 @@ public class DetailWithAbbreviationTest extends TestCase {
 
         // Read details
         Map<Integer, ConcreteDetailWithAbbreviation> idToDetail = getIdToDetails();
+        assertEquals(1, idToDetail.size());
 
         assertEquals(aDetail.getAbbreviation(), idToDetail.get(aDetail.getId()).getAbbreviation());
 
@@ -86,6 +91,8 @@ public class DetailWithAbbreviationTest extends TestCase {
 
         // Read back from the database and check
         idToDetail = getIdToDetails();
+        assertEquals(1, idToDetail.size());
+
         assertEquals(aDetail.getAbbreviation(), idToDetail.get(aDetail.getId()).getAbbreviation());
         assertFalse(idToDetail.get(aDetail.getId()).isActive());
     }
@@ -100,6 +107,10 @@ public class DetailWithAbbreviationTest extends TestCase {
 
         // should NOT be 'physically' equal
         assertFalse(aDetail == result);
+
+        // should only be 1 row
+        Map<Integer, ConcreteDetailWithAbbreviation> idToDetail = getIdToDetails();
+        assertEquals(1, idToDetail.size());
     }
 
     private void saveDetails() {

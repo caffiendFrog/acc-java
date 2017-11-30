@@ -43,14 +43,14 @@ public class CourseDetailTest extends TestCase {
 //    public void testBasicCourse() {
 ////        assertEquals(caffeineCourseName, caffeineCourse.getName());
 //
-//        // courses should be defaulted to un-archived
+//        // courseDetails should be defaulted to un-archived
 //        assertFalse(rohtoCourse.isArchived());
 //        caffeineCourse.archive();
 //        assertTrue(caffeineCourse.isArchived());
 //        caffeineCourse.unArchive();
 //        assertFalse(caffeineCourse.isArchived());
 //
-//        // courses should default to not having a webcast
+//        // courseDetails should default to not having a webcast
 //        assertFalse(rohtoCourse.hasWebcast());
 //        rohtoCourse.setWebcast(true);
 //        assertTrue(rohtoCourse.hasWebcast());

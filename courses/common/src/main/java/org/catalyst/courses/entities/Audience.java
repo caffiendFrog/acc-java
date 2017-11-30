@@ -18,8 +18,8 @@ public class Audience extends Detail {
     @Column(name = "audience_id")
     private int id;
 
-    @ManyToMany(mappedBy = "audiences")
-    protected Set<Course> courses = new HashSet<>();
+    @ManyToMany(mappedBy = "audiences", fetch = FetchType.EAGER)
+    protected Set<CourseDetails> courseDetails = new HashSet<>();
 
     protected Audience() {
         // no-op constructor for hibernate, cannot be private
@@ -33,13 +33,20 @@ public class Audience extends Detail {
         return this.id;
     }
 
-    public void addCourse(Course course) {
-        courses.add(course);
+    /**
+     * @param courseDetails
+     * @return <tt>true</tt> if this set did not already contain the specified
+     *         courseDetails
+     */
+    protected boolean addCourseDetails(CourseDetails courseDetails) {
+        return this.courseDetails.add(courseDetails);
     }
 
-    public void removeCourse(Course course) {
-        courses.remove(course);
-    }
+    /**
+     * @param courseDetails
+     * @return <tt>true</tt> if this set contained the specified courseDetails
+     */
+    protected boolean removeCourseDetails(CourseDetails courseDetails) { return this.courseDetails.remove(courseDetails); }
 
     @Override
     public boolean equals(Object o) {

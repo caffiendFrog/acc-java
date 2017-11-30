@@ -21,26 +21,13 @@ public class Course extends Detail {
     @Column(name = "course_id")
     private int id;
 
-    @OneToOne
+    @ManyToOne
     @Cascade({CascadeType.SAVE_UPDATE})
-    @JoinColumn(name = "institution_id")
-    private Institution institution;
+//    @JoinColumn(name = "institution_id")
+    private BaseInstitution institution;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Cascade({CascadeType.SAVE_UPDATE})
-    private Set<Institution> sponsors = new HashSet<>();
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Cascade({CascadeType.SAVE_UPDATE})
-    private Set<Translation> translations = new HashSet<>();
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Cascade({CascadeType.SAVE_UPDATE})
-    private Set<Audience> audiences = new HashSet<>();
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Cascade({CascadeType.SAVE_UPDATE})
-    private Set<Competency> competencies = new HashSet<>();
+    @ManyToMany(mappedBy = "courses", fetch = FetchType.EAGER)
+    protected Set<CourseDetails> courseDetails = new HashSet<>();
 
     @Column(name = "archived")
     private boolean archived;
@@ -82,60 +69,177 @@ public class Course extends Detail {
     }
 
     public Course(String courseName) {
-        setName(courseName);
+        super(courseName);
+        archived = false;
+        webcast = false;
     }
 
     public Integer getId() {
         return this.id;
     }
 
+    /**
+     * @param courseDetails
+     * @return <tt>true</tt> if this set did not already contain the specified
+     *         courseDetails
+     */
+    protected boolean addCourseDetails(CourseDetails courseDetails) {
+        return this.courseDetails.add(courseDetails);
+    }
+
+    /**
+     * @param courseDetails
+     * @return <tt>true</tt> if this set contained the specified courseDetails
+     */
+    protected boolean removeCourseDetails(CourseDetails courseDetails) { return this.courseDetails.remove(courseDetails); }
+
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public void addSponsor(Institution institution) {
-        // check if instituiton is valid sponsor
-        sponsors.add(institution);
+    public BaseInstitution getInstitution() {
+        return institution;
+    }
+
+    public void setInstitution(Institution institution) {
         institution.addCourse(this);
+        this.institution = institution;
     }
 
-    public void removeSponsor(Institution institution) {
-        sponsors.remove(institution);
+    public void removeInstitution(Institution institution) {
         institution.removeCourse(this);
+        this.institution = null;
     }
 
-    public void addTranslation(Translation translation) {
-        translations.add(translation);
-        translation.addCourse(this);
+    public boolean isArchived() {
+        return archived;
     }
 
-    public void removeTranslation(Translation translation) {
-        translations.remove(translation);
-        translation.removeCourse(this);
+    public void archive() {
+        archived = true;
     }
 
-    public void addAudience(Audience audience) {
-        audiences.add(audience);
-        audience.addCourse(this);
+    public void unarchive() {
+        archived = false;
     }
 
-    public void removeAudience(Audience audience) {
-        audiences.remove(audience);
-        audience.removeCourse(this);
+    public boolean hasWebcast() {
+        return webcast;
     }
 
-    public void addCompetency(Competency competency) {
-        competencies.add(competency);
-        competency.addCourse(this);
+    public void setWebcast(boolean webcast) {
+        this.webcast = webcast;
     }
 
-    public void removeCompetency(Competency competency) {
-        competencies.remove(competency);
-        competency.removeCourse(this);
+    public String getContactEmail() {
+        return contactEmail;
     }
 
-    public Set<Institution> getSponsors() {
-        return sponsors;
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
+    }
+
+    public String getContactUrl() {
+        return contactUrl;
+    }
+
+    public void setContactUrl(String contactUrl) {
+        this.contactUrl = contactUrl;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getHours() {
+        return hours;
+    }
+
+    public void setHours(String hours) {
+        this.hours = hours;
+    }
+
+    public String getMaxEnroll() {
+        return maxEnroll;
+    }
+
+    public void setMaxEnroll(String maxEnroll) {
+        this.maxEnroll = maxEnroll;
+    }
+
+    public String getSearchBlob() {
+        return searchBlob;
+    }
+
+    public void setSearchBlob(String searchBlob) {
+        this.searchBlob = searchBlob;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Date getSortDate() {
+        return sortDate;
+    }
+
+    public void setSortDate(Date sortDate) {
+        this.sortDate = sortDate;
+    }
+
+    public String getDateInfo() {
+        return dateInfo;
+    }
+
+    public void setDateInfo(String dateInfo) {
+        this.dateInfo = dateInfo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Course course = (Course) o;
+
+        if (id != course.id) return false;
+        if (archived != course.archived) return false;
+        if (webcast != course.webcast) return false;
+        if (institution != null ? !institution.equals(course.institution) : course.institution != null) return false;
+        if (contactEmail != null ? !contactEmail.equals(course.contactEmail) : course.contactEmail != null)
+            return false;
+        if (contactUrl != null ? !contactUrl.equals(course.contactUrl) : course.contactUrl != null) return false;
+        if (description != null ? !description.equals(course.description) : course.description != null) return false;
+        if (hours != null ? !hours.equals(course.hours) : course.hours != null) return false;
+        if (maxEnroll != null ? !maxEnroll.equals(course.maxEnroll) : course.maxEnroll != null) return false;
+        if (searchBlob != null ? !searchBlob.equals(course.searchBlob) : course.searchBlob != null) return false;
+        if (date != null ? !date.equals(course.date) : course.date != null) return false;
+        if (sortDate != null ? !sortDate.equals(course.sortDate) : course.sortDate != null) return false;
+        return dateInfo != null ? dateInfo.equals(course.dateInfo) : course.dateInfo == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + id;
+        result = 31 * result + (institution != null ? institution.hashCode() : 0);
+        result = 31 * result + (archived ? 1 : 0);
+        result = 31 * result + (webcast ? 1 : 0);
+        result = 31 * result + (contactEmail != null ? contactEmail.hashCode() : 0);
+        result = 31 * result + (contactUrl != null ? contactUrl.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (hours != null ? hours.hashCode() : 0);
+        result = 31 * result + (maxEnroll != null ? maxEnroll.hashCode() : 0);
+        result = 31 * result + (searchBlob != null ? searchBlob.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (sortDate != null ? sortDate.hashCode() : 0);
+        result = 31 * result + (dateInfo != null ? dateInfo.hashCode() : 0);
+        return result;
     }
 
     @Override
@@ -143,10 +247,6 @@ public class Course extends Detail {
         return "Course{" +
                 "id=" + id +
                 ", institution=" + institution +
-                ", sponsors=" + sponsors +
-                ", translations=" + translations +
-                ", audiences=" + audiences +
-                ", competencies=" + competencies +
                 ", archived=" + archived +
                 ", webcast=" + webcast +
                 ", contactEmail='" + contactEmail + '\'' +
