@@ -22,7 +22,7 @@ public class CourseDetails {
     @Column(name = "courseDetails_id")
     private int id;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     protected Set<Course> courses = new HashSet<>();
 
@@ -42,7 +42,7 @@ public class CourseDetails {
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     protected Set<Competency> competencies = new HashSet<>();
 
-    protected CourseDetails() {
+    public CourseDetails() {
         //no-op arg constructor for Hibernate
     }
 

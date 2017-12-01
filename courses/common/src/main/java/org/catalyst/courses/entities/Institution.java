@@ -7,6 +7,7 @@ import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +17,7 @@ import java.util.Set;
 public class Institution extends BaseInstitution {
     private final static Logger logger = LogManager.getLogger(Institution.class);
 
-    @OneToMany(mappedBy = "institution")
+    @OneToMany(mappedBy = "institution", fetch = FetchType.EAGER)
     @Cascade({CascadeType.SAVE_UPDATE})
     protected Set<Course> courses = new HashSet<>();
 
@@ -24,7 +25,7 @@ public class Institution extends BaseInstitution {
         // no-op constructor for hibernate, cannot be private
     }
 
-    protected Institution(String name, String abbreviation) {
+    public Institution(String name, String abbreviation) {
         super(name, abbreviation);
         setSponsor(false);
     }
@@ -39,9 +40,9 @@ public class Institution extends BaseInstitution {
         return result;
     }
 
-    public BaseInstitution getAsBaseInstitution() {
-        return this;
-    }
+//    public BaseInstitution getAsBaseInstitution() {
+//        return super;
+//    }
 
     /**
      * Don't use the list of Course, will cause a circular reference and the list is likely to change

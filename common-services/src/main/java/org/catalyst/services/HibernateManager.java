@@ -8,9 +8,6 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +17,7 @@ public class HibernateManager {
     private final static boolean DEBUG = logger.isDebugEnabled();
     private static HibernateManager INSTANCE = new HibernateManager();
 
-    private SessionFactory sessionFactory;
+    private SessionFactory sessionFactory = null;
     private List<Session> activeSessions = new ArrayList<>();
 
     public static HibernateManager getInstance() {
@@ -36,7 +33,9 @@ public class HibernateManager {
     }
 
     public void resetSessionFactory() {
-//        shutdown();
+        if (sessionFactory != null) {
+         shutdown();
+        }
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure()
                 .build();
@@ -79,22 +78,36 @@ public class HibernateManager {
         return result;
     }
 
+    public <T> void removeEntity(final Class<T> clazz, final int primaryKey) {
+        final Session session = startTransaction();
+        T result = session.get(clazz, primaryKey);
+        session.remove(result);
+        logger.debug("Removed: ["+ primaryKey+ "] " +clazz.getSimpleName());
+        logger.debug(result.toString());
+        endTransaction(session);
+    }
     public <T> List<T> getAllEntities(final Class<T> clazz) {
         return getAllEntities(clazz, false);
     }
 
     public <T> List<T> getAllEntities(final Class<T> clazz, final boolean refresh) {
-        CriteriaBuilder builder = sessionFactory.getCriteriaBuilder();
-        CriteriaQuery<T>  criteria = builder.createQuery(clazz);
-        Root<T> root = criteria.from(clazz);
-        criteria.select(root);
-        final Session session = startTransaction();
-        if (refresh) session.clear();
-        if (DEBUG) logger.debug(session.createQuery(criteria).getQueryString());
-        List<T> results = session.createQuery(criteria).getResultList();
+        String hql = "from "+clazz.getSimpleName();
+//        CriteriaBuilder builder = sessionFactory.getCriteriaBuilder();
+//        CriteriaQuery<T>  criteria = builder.createQuery(clazz);
+//        Root<T> root = criteria.from(clazz);
+//        criteria.select(root);
+//        final Session session = startTransaction();
+//        if (refresh) session.clear();
+//        if (DEBUG) logger.debug(session.createQuery(criteria).getQueryString());
+//        List<T> results = session.createQuery(criteria).list();
+//        endTransaction(session);
+        Session session = startTransaction();
+        List<T> results = session.createQuery(hql).getResultList();
         endTransaction(session);
         return results;
     }
+
+
 
     public List query(final Class entityClazz, final String clause) {
         final String hql = "SELECT * FROM " + entityClazz.getSimpleName() + " WHERE " + clause;

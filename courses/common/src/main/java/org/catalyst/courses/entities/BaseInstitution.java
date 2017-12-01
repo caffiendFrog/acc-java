@@ -48,7 +48,7 @@ public class BaseInstitution extends DetailWithAbbreviation {
         return sponsor;
     }
 
-    public void setSponsor(boolean sponsor) {
+    protected void setSponsor(boolean sponsor) {
         this.sponsor = sponsor;
     }
 

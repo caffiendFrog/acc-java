@@ -55,43 +55,25 @@ public class Audience extends Detail {
         return courseDetails.stream().collect(Collectors.toMap(CourseDetails::getId, Function.identity()));
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        if (!super.equals(o)) return false;
-//
-//        Audience audience = (Audience) o;
-//
-//        return id == audience.id;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        int result = super.hashCode();
-//        result = 31 * result + id;
-//        return result;
-//    }
-
-
+    /**
+     * Don't use the id, which will change after saving
+     * Don't use the list of CourseDetails, will cause a circular reference and the list is likely to change
+     */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-
-        Audience audience = (Audience) o;
-
-        return id == audience.id;
+        return super.equals(o);
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + id;
         return result;
     }
 
+    /**
+     * Intentionally omitting <code>courseDetails</code> because of circular reference
+     * @return
+     */
     @Override
     public String toString() {
         return "Audience{" +

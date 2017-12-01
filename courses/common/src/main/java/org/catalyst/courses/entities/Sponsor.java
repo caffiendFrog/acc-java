@@ -19,7 +19,7 @@ public class Sponsor extends BaseInstitution {
         // no-op constructor for hibernate, cannot be private
     }
 
-    protected Sponsor(String name, String abbreviation) {
+    public Sponsor(String name, String abbreviation) {
         super(name, abbreviation);
         setSponsor(true);
     }

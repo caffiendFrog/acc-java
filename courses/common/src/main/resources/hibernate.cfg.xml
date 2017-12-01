@@ -15,7 +15,7 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/local_acc?createDatabaseIfNotExist=true</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/migrated_acc?createDatabaseIfNotExist=true</property>
         <property name="connection.username">root</property>
         <property name="connection.password"/>
 
@@ -39,6 +39,8 @@
         <mapping class="org.catalyst.courses.entities.Translation"/>
         <mapping class="org.catalyst.courses.entities.Competency"/>
         <mapping class="org.catalyst.courses.entities.Audience"/>
+        <mapping class="org.catalyst.courses.entities.CourseDetails"/>
+        <mapping class="org.catalyst.courses.entities.Sponsor"/>
 
         <!-- legacy entities -->
         <mapping class="org.catalyst.courses.legacy.entities.LegacyCourse"/>

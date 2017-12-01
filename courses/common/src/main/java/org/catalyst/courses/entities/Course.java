@@ -29,10 +29,10 @@ public class Course extends Detail {
     protected Set<CourseDetails> courseDetails = new HashSet<>();
 
     @Column(name = "archived")
-    private boolean archived;
+    private boolean archived = false;
 
     @Column(name = "webcast")
-    private boolean webcast;
+    private boolean webcast = false;
 
     @Column(name = "contactEmail")
     private String contactEmail;
@@ -41,6 +41,7 @@ public class Course extends Detail {
     private String contactUrl;
 
     @Column(name = "description")
+    @Lob
     private String description;
 
     @Column(name = "hours")
@@ -50,6 +51,7 @@ public class Course extends Detail {
     private String maxEnroll;
 
     @Column(name = "searchBlob")
+    @Lob
     private String searchBlob;
 
     @Temporal(TemporalType.DATE)

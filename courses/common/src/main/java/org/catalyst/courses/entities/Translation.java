@@ -25,7 +25,7 @@ public class Translation extends DetailWithAbbreviation {
         // no-op constructor for hibernate, cannot be private
     }
 
-    protected Translation(String name, String abbreviation) {
+    public Translation(String name, String abbreviation) {
         super(name, abbreviation);
     }
 
