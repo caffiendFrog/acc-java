@@ -42,6 +42,18 @@
                     <attach>true</attach>
                 </configuration>
             </plugin>
+            <!-- GWT Maven Plugin - shared configuration in eagle-i-base pom -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <!-- Plugin configuration. There are many available options, see gwt-maven-plugin documentation
+                  at codehaus.org -->
+                <configuration>
+                    <!-- URL that should be automatically opened in the GWT shell (gwt:run). -->
+                    <runTarget>Home.html</runTarget>
+                    <style>PRETTY</style>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

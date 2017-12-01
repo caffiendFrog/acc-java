@@ -76,9 +76,9 @@ public class MigrateSchema {
         migrateRelationships();
         legacySessionFactory.close();
 
-//        migratedSchemaManager.resetSessionFactory();
+        migratedSchemaManager.resetSessionFactory();
 //    migratedSchemaManager.
-//        System.out.println(migratedSchemaManager.getAllEntities(Course.class, true));
+        System.out.println(migratedSchemaManager.getAllEntities(Course.class, true));
 
 //        dedupInstitutions();
 
