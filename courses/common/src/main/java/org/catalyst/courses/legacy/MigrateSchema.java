@@ -41,8 +41,8 @@ public class MigrateSchema {
 
     private static Map<Integer, Course> legacyIdToCourseDetail = new HashMap<>();
     private static Map<Integer, Competency> legacyIdToCompetencyDetail = new HashMap<>();
-    private static Map<Integer, Institution> legacyIdToInstitutionDetail = new HashMap<>();
-    private static Map<Integer, Institution> legacySponsorIdToInstitutionDetail = new HashMap<>();
+    private static Map<Integer, BaseInstitution> legacyIdToInstitutionDetail = new HashMap<>();
+    private static Map<Integer, BaseInstitution> legacySponsorIdToInstitutionDetail = new HashMap<>();
     private static Map<Integer, Audience> legacyIdToAudienceDetail = new HashMap<>();
     private static Map<Integer, Translation> legacyIdToTranslationDetail = new HashMap<>();
 
@@ -100,10 +100,10 @@ public class MigrateSchema {
 
         Map<Integer, List<Course>> legacyCourseIdToNewCourses = new HashMap<>();
         for (Integer legacyId : legacyIdToCourseDetail.keySet()) {
-            List<Course> migratedCourses = new ArrayList<>();
+            List<Course> migratedCours = new ArrayList<>();
 //            Course course = new Course()
 //            if (legacyCoursesToCourseTranslations.containsKey(legacyId)) {
-//                migratedCourses.add(new Course(legacyIdToCourseDetail.get(legacyId).getId());
+//                migratedCours.add(new Course(legacyIdToCourseDetail.get(legacyId).getId());
 //            }
             int numTranslations = legacyCoursesToCourseTranslations.get(legacyId).size();
             int numAudiences = legacyCoursesToCourseAudiences.get(legacyId).size();
@@ -151,11 +151,11 @@ public class MigrateSchema {
     private static void migrateInstitutions() {
 //        List<LegacySponsor> legacySponsors = getListFromDB(LegacySponsor.class);
 //        List<LegacyInstitution> legacyInstitutions = getListFromDB(LegacyInstitution.class);
-//        Map<String, Institution> abbreviationToInstitutionDetails = new HashMap<>();
+//        Map<String, BaseInstitution> abbreviationToInstitutionDetails = new HashMap<>();
 //
-//        // first migrate the institutions
+//        // first migrate the sponsors
 //        for (LegacyInstitution li : legacyInstitutions) {
-//            Institution institutionDetail = new Institution(li.getName(), li.getAbbreviation(), li.getNote());
+//            BaseInstitution institutionDetail = new BaseInstitution(li.getName(), li.getAbbreviation(), li.getNote());
 //            abbreviationToInstitutionDetails.put(li.getAbbreviation(), institutionDetail);
 //            legacyIdToInstitutionDetail.put(li.getId(), institutionDetail);
 //        }
@@ -164,7 +164,7 @@ public class MigrateSchema {
 //        for (LegacySponsor ls : legacySponsors) {
 //            // There is an inconsistency with the abbreviation of Childrens' Hospital. Need to manually normalize here
 //            String abbreviation = ls.getAbbreviation().equals("CHB") ? "Childrens" : ls.getAbbreviation();
-//            Institution institutionDetail = abbreviationToInstitutionDetails.get(abbreviation);
+//            BaseInstitution institutionDetail = abbreviationToInstitutionDetails.get(abbreviation);
 //            institutionDetail.setSponsor(true);
 //            newSchemaManager.saveOrUpdate(institutionDetail);
 //            legacySponsorIdToInstitutionDetail.put(ls.getId(), institutionDetail);

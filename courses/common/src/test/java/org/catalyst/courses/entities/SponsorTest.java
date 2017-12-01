@@ -16,16 +16,14 @@ import java.util.stream.Collectors;
 import static org.catalyst.courses.entities.InstitutionTest.*;
 import static org.junit.Assert.*;
 
-public class SponsorTest{
+public class SponsorTest {
     private final static Logger logger = LogManager.getLogger(SponsorTest.class);
 
     private final static Sponsor hkuSponsor = new Sponsor(hkuName, hkuAbbreviation);
 
     @BeforeClass
     public static void before() {
-        // need to clear the database because we are using the table in two different places
-        // cause confusion
-        removeAllBaseInstitutions();
+        HibernateManager.getInstance().resetSessionFactory();
     }
 
     @Before

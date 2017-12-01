@@ -7,11 +7,14 @@ import org.hibernate.annotations.Cascade;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name="courseDetails")
 public class CourseDetails {
     private final static Logger logger = LogManager.getLogger(CourseDetails.class);
+
+    private final UUID uuid = UUID.randomUUID();
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "table-generator")
@@ -126,22 +129,11 @@ public class CourseDetails {
 
         CourseDetails that = (CourseDetails) o;
 
-        if (id != that.id) return false;
-        if (!courses.equals(that.courses)) return false;
-        if (!sponsors.equals(that.sponsors)) return false;
-        if (!translations.equals(that.translations)) return false;
-        if (!audiences.equals(that.audiences)) return false;
-        return competencies.equals(that.competencies);
+        return uuid.equals(that.uuid);
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + courses.hashCode();
-        result = 31 * result + sponsors.hashCode();
-        result = 31 * result + translations.hashCode();
-        result = 31 * result + audiences.hashCode();
-        result = 31 * result + competencies.hashCode();
-        return result;
+        return uuid.hashCode();
     }
 }

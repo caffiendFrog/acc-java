@@ -1,9 +1,11 @@
 package org.catalyst.courses.entities;
 
-import junit.framework.TestCase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.catalyst.services.HibernateManager;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,11 +13,12 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.junit.Assert.*;
 /**
  * Testing all fields to make sure we don't accidentally override methods incorrectly in the future
  */
 @SuppressWarnings("Duplicates")
-public class CompetencyTest extends TestCase {
+public class CompetencyTest {
     private final static Logger logger = LogManager.getLogger(CompetencyTest.class);
 
     protected final static String bioName = "Biofelinatics";
@@ -26,7 +29,12 @@ public class CompetencyTest extends TestCase {
     private final static Competency bio = new Competency(bioName);
     private final static Competency chem = new Competency(chemName);
 
+    @BeforeClass
+    public static void beforeClass() {
+        HibernateManager.getInstance().resetSessionFactory();
+    }
 
+    @Before
     public void setUp() {
         // reset competencies
         bio.setName(bioName);
@@ -44,6 +52,7 @@ public class CompetencyTest extends TestCase {
      * Basic unit test to check the behavior of the required name field and also to check that non-applicable fields
      * (abbreviation) is always null and can't be set accidentally.
      */
+    @Test
     public void testBasicCompetency() {
         assertEquals(bioName, bio.getName());
 
@@ -61,6 +70,7 @@ public class CompetencyTest extends TestCase {
     /**
      * Should be able to update require fields, but shouldn't be able to set them to null
      */
+    @Test
     public void testRequired() {
         bio.setName("qwerty");
         assertEquals("qwerty", bio.getName());
@@ -75,7 +85,8 @@ public class CompetencyTest extends TestCase {
             fail();
         }
     }
-    
+
+    @Test
     public void testCRUD() {
         chem.setNote(chemNote);
 
@@ -99,6 +110,7 @@ public class CompetencyTest extends TestCase {
         assertFalse(idToCompetencies.get(chem.getId()).isActive());
     }
 
+    @Test
     public void testEquality() {
         saveCompetencies();
         Competency result = HibernateManager.getInstance().getEntity(Competency.class, chem.getId());

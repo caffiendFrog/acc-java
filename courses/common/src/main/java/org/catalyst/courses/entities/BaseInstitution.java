@@ -38,7 +38,6 @@ public class BaseInstitution extends DetailWithAbbreviation {
 
     public BaseInstitution(String name, String abbreviation) {
         super(name, abbreviation);
-//        this.sponsor = false;
     }
 
     public Integer getId() {
@@ -53,8 +52,9 @@ public class BaseInstitution extends DetailWithAbbreviation {
         this.sponsor = sponsor;
     }
 
-
-
+    /**
+     * Don't use the id, which will change after saving
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -63,27 +63,13 @@ public class BaseInstitution extends DetailWithAbbreviation {
 
         BaseInstitution that = (BaseInstitution) o;
 
-        return id == that.id;
+        return sponsor == that.sponsor;
     }
-
-
-    //    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        if (!super.equals(o)) return false;
-//
-//        BaseInstitution that = (BaseInstitution) o;
-//
-//        if (id != that.id) return false;
-////        return sponsor == that.sponsor;
-//    }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + id;
-//        result = 31 * result + (sponsor ? 1 : 0);
+        result = 31 * result + (sponsor ? 1 : 0);
         return result;
     }
 
@@ -91,7 +77,7 @@ public class BaseInstitution extends DetailWithAbbreviation {
     public String toString() {
         return "BaseInstitution{" +
                 "id=" + id +
-//                ", sponsor=" + sponsor +
+                ", sponsor=" + sponsor +
                 "} " + super.toString();
     }
 }

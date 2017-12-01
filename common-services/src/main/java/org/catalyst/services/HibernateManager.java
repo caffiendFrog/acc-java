@@ -18,14 +18,25 @@ import java.util.List;
 public class HibernateManager {
     private final static Logger logger = LogManager.getLogger(HibernateManager.class);
     private final static boolean DEBUG = logger.isDebugEnabled();
-    private final static HibernateManager INSTANCE = new HibernateManager();
+    private static HibernateManager INSTANCE = new HibernateManager();
 
     private SessionFactory sessionFactory;
     private List<Session> activeSessions = new ArrayList<>();
 
-    public static HibernateManager getInstance() { return INSTANCE; }
+    public static HibernateManager getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new HibernateManager();
+        }
+
+        return INSTANCE;
+    }
 
     public HibernateManager() {
+       resetSessionFactory();
+    }
+
+    public void resetSessionFactory() {
+//        shutdown();
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure()
                 .build();
@@ -33,13 +44,13 @@ public class HibernateManager {
         try {
             sessionFactory = new MetadataSources( registry ).buildMetadata().buildSessionFactory();
         } catch (Exception e) {
-            logger.debug(e.getMessage());
+            logger.warn(e.getMessage());
             // The registry would be destroyed by the SessionFactory, but we had trouble building the SessionFactory
             // so destroy it manually.
             StandardServiceRegistryBuilder.destroy( registry );
         }
-    }
 
+    }
     /**
      * Saves & commits the list of entities
      * @param entities
@@ -69,11 +80,16 @@ public class HibernateManager {
     }
 
     public <T> List<T> getAllEntities(final Class<T> clazz) {
+        return getAllEntities(clazz, false);
+    }
+
+    public <T> List<T> getAllEntities(final Class<T> clazz, final boolean refresh) {
         CriteriaBuilder builder = sessionFactory.getCriteriaBuilder();
         CriteriaQuery<T>  criteria = builder.createQuery(clazz);
         Root<T> root = criteria.from(clazz);
         criteria.select(root);
         final Session session = startTransaction();
+        if (refresh) session.clear();
         if (DEBUG) logger.debug(session.createQuery(criteria).getQueryString());
         List<T> results = session.createQuery(criteria).getResultList();
         endTransaction(session);
@@ -101,7 +117,6 @@ public class HibernateManager {
         session.close();
         activeSessions.remove(session);
     }
-
 
     public void shutdown() {
         // close out any active sessions

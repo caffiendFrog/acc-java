@@ -5,7 +5,10 @@ import org.apache.logging.log4j.Logger;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "audience")
@@ -47,6 +50,29 @@ public class Audience extends Detail {
      * @return <tt>true</tt> if this set contained the specified courseDetails
      */
     protected boolean removeCourseDetails(CourseDetails courseDetails) { return this.courseDetails.remove(courseDetails); }
+
+    protected Map<Integer, CourseDetails> getCourseDetailsIdToCourseDetails() {
+        return courseDetails.stream().collect(Collectors.toMap(CourseDetails::getId, Function.identity()));
+    }
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        if (!super.equals(o)) return false;
+//
+//        Audience audience = (Audience) o;
+//
+//        return id == audience.id;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        int result = super.hashCode();
+//        result = 31 * result + id;
+//        return result;
+//    }
+
 
     @Override
     public boolean equals(Object o) {

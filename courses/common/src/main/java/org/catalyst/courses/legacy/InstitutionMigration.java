@@ -2,7 +2,7 @@ package org.catalyst.courses.legacy;
 
 
 /**
- * A POJO to assist with migrating the institutions & sponsors table from the legacy database to the new schema
+ * A POJO to assist with migrating the sponsors & sponsors table from the legacy database to the new schema
  * which combines these redundant tables
  */
 public class InstitutionMigration {

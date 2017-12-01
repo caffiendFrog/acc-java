@@ -48,28 +48,25 @@ public class Translation extends DetailWithAbbreviation {
      */
     protected boolean removeCourseDetails(CourseDetails courseDetails) { return this.courseDetails.remove(courseDetails); }
 
+    /**
+     * Don't use the id, which will change after saving
+     * Don't use the list of CourseDetails, will cause a circular reference and the list is likely to change
+     */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-
-        Translation that = (Translation) o;
-
-        return id == that.id;
+        return super.equals(o);
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + id;
         return result;
     }
 
     @Override
     public String toString() {
         return "Translation{" +
-                "id=" + id +
-                "} " + super.toString();
+                super.toString() +
+                "} ";
     }
 }

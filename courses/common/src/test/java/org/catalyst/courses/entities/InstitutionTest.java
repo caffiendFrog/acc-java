@@ -36,7 +36,7 @@ public class InstitutionTest {
     public static void before() {
         // need to clear the database because we are using the table in two different places
         // cause confusion
-        removeAllBaseInstitutions();
+        HibernateManager.getInstance().resetSessionFactory();
     }
 
     @Before

@@ -1,9 +1,11 @@
 package org.catalyst.courses.entities;
 
-import junit.framework.TestCase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.catalyst.services.HibernateManager;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,11 +13,13 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.junit.Assert.*;
+
 /**
  * Testing all fields to make sure we don't accidentally override methods incorrectly in the future
  */
 @SuppressWarnings("Duplicates")
-public class TranslationTest extends TestCase {
+public class TranslationTest {
     private final static Logger logger = LogManager.getLogger(TranslationTest.class);
 
     protected final static String t1Name = "TranslationDetail to Alpacas";
@@ -27,6 +31,13 @@ public class TranslationTest extends TestCase {
     private final static Translation t1 = new Translation(t1Name, t1Abbreviation);
     private final static Translation t2 = new Translation(t2Name, t2Abbreviation);
 
+    @BeforeClass
+    public static void before() {
+//        removeAllTranslations();
+        HibernateManager.getInstance().resetSessionFactory();
+    }
+
+    @Before
     public void setUp() {
         // reset entities
         t1.setName(t1Name);
@@ -40,6 +51,7 @@ public class TranslationTest extends TestCase {
         t2.courseDetails.clear();
     }
 
+    @Test
     public void testBasicTranslation() {
         assertEquals(t1Name, t1.getName());
         assertEquals(t2Abbreviation, t2.getAbbreviation());
@@ -58,6 +70,7 @@ public class TranslationTest extends TestCase {
     /**
      * Should be able to update require fields, but shouldn't be able to set them to null
      */
+    @Test
     public void testRequired() {
         t1.setAbbreviation("t1_t1");
         assertEquals("t1_t1", t1.getAbbreviation());
@@ -86,6 +99,7 @@ public class TranslationTest extends TestCase {
         }
     }
 
+    @Test
     public void testCRUD() {
         saveTranslations();
 
@@ -104,6 +118,7 @@ public class TranslationTest extends TestCase {
         assertFalse(idToTranslations.get(t2.getId()).isActive());
     }
 
+    @Test
     public void testEquality() {
         saveTranslations();
         Translation result = HibernateManager.getInstance().getEntity(Translation.class, t2.getId());
@@ -127,4 +142,13 @@ public class TranslationTest extends TestCase {
         List<Translation> translations = HibernateManager.getInstance().getAllEntities(Translation.class);
         return translations.stream().collect(Collectors.toMap(Translation::getId, Function.identity()));
     }
+
+//    protected static void removeAllTranslations() {
+//        final Session session =HibernateManager.getInstance().startTransaction();
+//        List<Translation> results = HibernateManager.getInstance().getAllEntities(Translation.class);
+//        for(Translation result : results) {
+//            session.delete(result);
+//        }
+//        HibernateManager.getInstance().endTransaction(session);
+//    }
 }

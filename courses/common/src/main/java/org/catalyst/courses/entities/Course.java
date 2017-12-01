@@ -23,8 +23,7 @@ public class Course extends Detail {
 
     @ManyToOne
     @Cascade({CascadeType.SAVE_UPDATE})
-//    @JoinColumn(name = "institution_id")
-    private BaseInstitution institution;
+    private Institution institution;
 
     @ManyToMany(mappedBy = "courses", fetch = FetchType.EAGER)
     protected Set<CourseDetails> courseDetails = new HashSet<>();
@@ -97,7 +96,7 @@ public class Course extends Detail {
         this.description = description;
     }
 
-    public BaseInstitution getInstitution() {
+    public Institution getInstitution() {
         return institution;
     }
 
@@ -199,6 +198,10 @@ public class Course extends Detail {
         this.dateInfo = dateInfo;
     }
 
+    /**
+     * Don't use the id, which will change after saving
+     * Don't use the list of CourseDetails, will cause a circular reference and the list is likely to change
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -207,7 +210,6 @@ public class Course extends Detail {
 
         Course course = (Course) o;
 
-        if (id != course.id) return false;
         if (archived != course.archived) return false;
         if (webcast != course.webcast) return false;
         if (institution != null ? !institution.equals(course.institution) : course.institution != null) return false;
@@ -226,7 +228,6 @@ public class Course extends Detail {
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + id;
         result = 31 * result + (institution != null ? institution.hashCode() : 0);
         result = 31 * result + (archived ? 1 : 0);
         result = 31 * result + (webcast ? 1 : 0);

@@ -38,4 +38,25 @@ public class Sponsor extends BaseInstitution {
      * @return <tt>true</tt> if this set contained the specified courseDetails
      */
     protected boolean removeCourseDetails(CourseDetails courseDetails) { return this.courseDetails.remove(courseDetails); }
+
+    /**
+     * Don't use the list of CourseDetails, will cause a circular reference and the list is likely to change
+     */
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Sponsor{" +
+                super.toString() +
+                "} ";
+    }
 }

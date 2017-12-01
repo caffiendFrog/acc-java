@@ -31,13 +31,11 @@ public class Institution extends BaseInstitution {
 
     public boolean addCourse(Course course) {
         boolean result =  courses.add(course);
-//        course.setInstitution(this);
         return result;
     }
 
     public boolean removeCourse(Course course) {
         boolean result = courses.remove(course);
-//        course.setInstitution(null);
         return result;
     }
 
@@ -45,6 +43,9 @@ public class Institution extends BaseInstitution {
         return this;
     }
 
+    /**
+     * Don't use the list of Course, will cause a circular reference and the list is likely to change
+     */
     @Override
     public boolean equals(Object o) {
         return super.equals(o);
@@ -54,5 +55,12 @@ public class Institution extends BaseInstitution {
     public int hashCode() {
         int result = super.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Institution{" +
+                super.toString() +
+                "} ";
     }
 }

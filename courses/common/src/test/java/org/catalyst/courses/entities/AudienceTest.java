@@ -1,9 +1,11 @@
 package org.catalyst.courses.entities;
 
-import junit.framework.TestCase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.catalyst.services.HibernateManager;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,11 +13,12 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.junit.Assert.*;
 /**
  * Testing all fields to make sure we don't accidentally override methods incorrectly in the future
  */
 @SuppressWarnings("Duplicates")
-public class AudienceTest extends TestCase {
+public class AudienceTest {
     private final static Logger logger = LogManager.getLogger(AudienceTest.class);
 
     // protected static so we can reference these values in CourseTest
@@ -26,6 +29,12 @@ public class AudienceTest extends TestCase {
     private final static Audience faculty = new Audience(facultyName);
     private final static Audience postDoc = new Audience(postDocName);
 
+    @BeforeClass
+    public static void beforeClass() {
+        HibernateManager.getInstance().resetSessionFactory();
+    }
+
+    @Before
     public void setUp() {
         // reset entities
         faculty.setName(facultyName);
@@ -40,6 +49,7 @@ public class AudienceTest extends TestCase {
 
     }
 
+    @Test
     public void testBasicAudience() {
         assertEquals(facultyName, faculty.getName());
 
@@ -57,6 +67,7 @@ public class AudienceTest extends TestCase {
     /**
      * Should be able to update require fields, but shouldn't be able to set them to null
      */
+    @Test
     public void testRequired() {
         postDoc.setName("qwerty");
         assertEquals("qwerty", postDoc.getName());
@@ -72,6 +83,7 @@ public class AudienceTest extends TestCase {
         }
     }
 
+    @Test
     public void testCRUD() {
         // Create/Save audience
         saveAudiences();
@@ -93,6 +105,7 @@ public class AudienceTest extends TestCase {
         assertFalse(idToAudiences.get(faculty.getId()).isActive());
     }
 
+    @Test
     public void testEquality() {
         HibernateManager.getInstance().saveOrUpdate(faculty);
         Audience result = HibernateManager.getInstance().getEntity(Audience.class, faculty.getId());
