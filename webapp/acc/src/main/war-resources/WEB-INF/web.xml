@@ -10,6 +10,6 @@
 
     <servlet-mapping>
         <servlet-name>CourseService</servlet-name>
-        <url-pattern>/acc/CourseService</url-pattern>
+        <url-pattern>/ACC/course</url-pattern>
     </servlet-mapping>
 </web-app>

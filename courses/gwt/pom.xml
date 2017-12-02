@@ -18,6 +18,19 @@
             <version>${gwt-version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.catalyst</groupId>
+            <artifactId>catalyst-common-gwt</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.catalyst</groupId>
+            <artifactId>catalyst-common-gwt</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>
+            <scope>provided</scope>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
     <build>
