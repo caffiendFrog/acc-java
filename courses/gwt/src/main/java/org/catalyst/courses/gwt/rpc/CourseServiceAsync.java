@@ -9,4 +9,7 @@ import java.util.Map;
  */
 public interface CourseServiceAsync {
     void getMockCompetencies(AsyncCallback<Map<Integer, String>> callback);
+    void getMockSponsors(AsyncCallback<Map<Integer, String>> callback);
+    void getMockTranslations(AsyncCallback<Map<Integer, String>> callback);
+    void getLastUpdated(AsyncCallback<String> callback);
 }

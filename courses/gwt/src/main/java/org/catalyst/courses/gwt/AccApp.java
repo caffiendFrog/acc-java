@@ -7,8 +7,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 import org.catalyst.courses.gwt.components.SearchPanel;
 import org.catalyst.courses.gwt.rpc.CourseService;
 import org.catalyst.courses.gwt.rpc.CourseServiceAsync;
@@ -28,9 +27,8 @@ public class AccApp implements EntryPoint {
      * Entry point method
      */
     public void onModuleLoad() {
-        Panel mainContainer = RootPanel.get("main_container");
         SearchPanel sp = new SearchPanel();
-        mainContainer.add(sp);
+        RootLayoutPanel.get().add(sp);
         courseService.getMockCompetencies(new AsyncCallback<Map<Integer, String>>() {
             @Override
             public void onFailure(Throwable throwable) {
@@ -39,7 +37,43 @@ public class AccApp implements EntryPoint {
 
             @Override
             public void onSuccess(Map<Integer, String> integerStringMap) {
-                sp.setCompetencies(integerStringMap);
+                sp.setCompetencyFilter(integerStringMap);
+            }
+        });
+
+        courseService.getMockSponsors(new AsyncCallback<Map<Integer, String>>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+
+            @Override
+            public void onSuccess(Map<Integer, String> integerStringMap) {
+                sp.setSponsorFilter(integerStringMap);
+            }
+        });
+
+        courseService.getMockTranslations(new AsyncCallback<Map<Integer, String>>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+
+            @Override
+            public void onSuccess(Map<Integer, String> integerStringMap) {
+                sp.setTranslationalFilter(integerStringMap);
+            }
+        });
+
+        courseService.getLastUpdated(new AsyncCallback<String>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                sp.setLastUpdated(s);
             }
         });
 
@@ -55,20 +89,5 @@ public class AccApp implements EntryPoint {
                 Window.alert(alert);
             }
         });
-        mainContainer.add(search);
-//        SearchPanel sp = new SearchPanel()
-//                new SearchPanel(courseService.getMockCompetencies(new AsyncCallback<Map<Integer, String>>() {
-//            @Override
-//            public void onFailure(Throwable throwable) {
-//
-//            }
-//
-//            @Override
-//            public void onSuccess(Map<Integer, String> integerStringMap) {
-//
-//            }
-//        }
-////        mainContainer.add(new SearchPanel(sp));
-//        mainContainer.add(sp);
     }
 }

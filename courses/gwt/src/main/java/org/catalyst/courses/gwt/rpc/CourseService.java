@@ -11,5 +11,7 @@ import java.util.Map;
 @RemoteServiceRelativePath("course")
 public interface CourseService extends RemoteService {
     Map<Integer,String> getMockCompetencies();
-
+    Map<Integer,String> getMockSponsors();
+    Map<Integer,String> getMockTranslations();
+    String getLastUpdated();
 }

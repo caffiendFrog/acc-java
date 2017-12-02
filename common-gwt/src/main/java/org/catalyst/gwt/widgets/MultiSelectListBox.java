@@ -12,17 +12,6 @@ public class MultiSelectListBox extends ListBox {
                 .filter(index -> isItemSelected(index))
                 .mapToObj(index -> Integer.parseInt(getValue(index)))
                 .collect(Collectors.toList());
-//        final int items = getItemCount();
-//        IntStream.range(0, getItemCount())
-//                .filter(index -> isItemSelected(index))
-//                .mapToObj(index -> getValue(index))
-//                .collect(Collectors.toList());
-
-//                String[] names = {"Sam", "Pamela", "Dave", "Pascal", "Erik"};
-//        IntStream.range(0, names.length)
-//                .filter(i -> names[i].length() <= i)
-//                .mapToObj(i -> names[i])
-//                .collect(Collectors.toList());
         return results;
     }
 }

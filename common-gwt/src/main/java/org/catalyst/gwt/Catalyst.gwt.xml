@@ -1,6 +1,6 @@
 <module>
     <source path="">
-        <include name="**/*.java"/>
+        <include name="**/*.java" />
         <include name="**/*.css"/>
     </source>
 </module>

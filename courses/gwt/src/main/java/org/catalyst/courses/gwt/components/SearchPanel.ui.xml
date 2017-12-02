@@ -1,11 +1,20 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
-             xmlns:cat='urn:import:org.catalyst.gwt.widgets'>
-    <g:HTMLPanel>
-        Hello hello hello hello
-        <!--<g:ListBox ui:field='competencies' visibleItemCount='5'/>-->
-        <cat:MultiSelectListBox ui:field="competencies" visibleItemCount="5"/>
-    </g:HTMLPanel>
-
-
+             xmlns:cat='urn:import:org.catalyst.gwt.panels'>
+    <g:DockLayoutPanel unit="EM">
+        <g:north size="2">
+            <g:Label styleName="section-header">Educational Offerings</g:Label>
+        </g:north>
+        <g:center>
+            <g:HorizontalPanel>
+                <cat:MultiSelectFilterPanel ui:field="competencyPanel"/>
+                <cat:MultiSelectFilterPanel ui:field="sponsorPanel"/>
+                <cat:MultiSelectFilterPanel ui:field="translationalPanel"/>
+                <g:Label ui:field="updatedLabel" styleName="instructions">Compendium last updated:</g:Label>
+            </g:HorizontalPanel>
+        </g:center>
+        <g:south size="3">
+            <g:HTML ui:field="instructionLabel"/>
+        </g:south>
+    </g:DockLayoutPanel>
 </ui:UiBinder>

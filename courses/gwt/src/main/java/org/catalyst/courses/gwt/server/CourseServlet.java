@@ -30,4 +30,20 @@ public class CourseServlet extends RemoteServiceServlet implements CourseService
         results.put(4,"T4");
         return results;
     }
+
+    public Map<Integer, String> getMockSponsors() {
+        Map<Integer, String> results = new HashMap<>();
+        results.put(0, "all");
+        results.put(2, "HKU");
+        results.put(6, "OHSO");
+        results.put(4, "UPR");
+        results.put(8, "MSM");
+        results.put(10, "MeHarry");
+        results.put(20, "UMass");
+        return results;
+    }
+
+    public String getLastUpdated() {
+        return "2025-92-12";
+    }
 }
