@@ -8,4 +8,8 @@ import com.google.gwt.resources.client.CssResource;
  */
 public interface AccStyles extends CssResource {
     String instructions();
+
+    String sponsors();
+
+    String translational();
 }

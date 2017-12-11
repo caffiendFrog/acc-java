@@ -7,9 +7,17 @@
         <servlet-name>CourseService</servlet-name>
         <servlet-class>org.catalyst.courses.gwt.server.CourseServlet</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>CourseService</servlet-name>
         <url-pattern>/ACC/course</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CommonService</servlet-name>
+        <servlet-class>org.catalyst.gwt.server.CommonServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CommonService</servlet-name>
+        <url-pattern>/ACC/common</url-pattern>
     </servlet-mapping>
 </web-app>

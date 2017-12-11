@@ -20,6 +20,11 @@
         </dependency>
         <dependency>
             <groupId>org.catalyst</groupId>
+            <artifactId>catalyst-courses-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.catalyst</groupId>
             <artifactId>catalyst-common-gwt</artifactId>
             <version>${project.version}</version>
         </dependency>

@@ -50,4 +50,8 @@ public class MultiSelectFilterPanel extends Composite {
     public void setVisibleItemCount(final int numVisibleItems) {
         filterListBox.setVisibleItemCount(numVisibleItems);
     }
+
+    public void setListBoxStyle(final String styleName) {
+        filterListBox.setStyleName(styleName);
+    }
 }

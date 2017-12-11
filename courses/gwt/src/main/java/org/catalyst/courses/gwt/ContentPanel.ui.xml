@@ -1,0 +1,20 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:cat='urn:import:org.catalyst.courses.gwt.components'
+             xmlns:hi='urn:import:org.catalyst.gwt.panels'>
+    <!--<g:DockLayoutPanel unit="EM">-->
+        <!--<g:north size="20">-->
+                <!--<cat:SearchPanel ui:field="searchPanel"/>-->
+
+        <!--</g:north>-->
+        <!--<g:south size="20">-->
+            <!--<cat:ResultsPanel ui:field="resultsPanel"/>-->
+        <!--</g:south>-->
+    <!--</g:DockLayoutPanel>-->
+    <g:FlowPanel>
+        <hi:CommonAssetsPanel ui:field="headerPanel"/>
+        <cat:SearchPanel ui:field="searchPanel"/>
+        <cat:ResultsPanel ui:field="resultsPanel"/>
+        <hi:CommonAssetsPanel ui:field="footerPanel"/>
+    </g:FlowPanel>
+</ui:UiBinder>

@@ -1,46 +1,36 @@
 package org.catalyst.courses.gwt.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.catalyst.courses.entities.Competency;
+import org.catalyst.courses.entities.Sponsor;
+import org.catalyst.courses.entities.Translation;
 import org.catalyst.courses.gwt.rpc.CourseService;
+import org.catalyst.services.HibernateManager;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CourseServlet extends RemoteServiceServlet implements CourseService {
+    private final static Logger logger = LogManager.getLogger(CourseServlet.class);
+
+    private final HibernateManager hibernateManager = HibernateManager.getInstance();
     
-    public Map<Integer,String> getMockCompetencies() {  
-        Map<Integer,String> results = new HashMap<>();
-        results.put(0,"all");
-        results.put(2,"monkees");
-        results.put(3,"dunkin");
-        results.put(5,"flowers");
-        results.put(6,"frogs");
-        results.put(23,"cats");
-        results.put(21,"turkies");
-        results.put(11,"peeps");
-        return results;
+    public Map<Integer,String> getCompetencies() {
+        List<Competency> competencies = hibernateManager.getAllEntities(Competency.class);
+        return competencies.stream().collect(Collectors.toMap(Competency::getId, Competency::getName));
     }
 
-    public Map<Integer, String> getMockTranslations() {
-        Map<Integer, String> results = new HashMap<>();
-        results.put(0,"all");
-        results.put(1,"T1");
-        results.put(2,"T2");
-        results.put(3,"T3");
-        results.put(4,"T4");
-        return results;
+    public Map<Integer, String> getTranslations() {
+        List<Translation> translations = hibernateManager.getAllEntities(Translation.class);
+        return translations.stream().collect(Collectors.toMap(Translation::getId, Translation::getName));
     }
 
-    public Map<Integer, String> getMockSponsors() {
-        Map<Integer, String> results = new HashMap<>();
-        results.put(0, "all");
-        results.put(2, "HKU");
-        results.put(6, "OHSO");
-        results.put(4, "UPR");
-        results.put(8, "MSM");
-        results.put(10, "MeHarry");
-        results.put(20, "UMass");
-        return results;
+    public Map<Integer, String> getSponsors() {
+        List<Sponsor> sponsors = hibernateManager.getAllEntities(Sponsor.class);
+        return sponsors.stream().collect(Collectors.toMap(Sponsor::getId, Sponsor::getName));
     }
 
     public String getLastUpdated() {

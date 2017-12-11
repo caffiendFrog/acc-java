@@ -10,8 +10,8 @@ import java.util.Map;
  */
 @RemoteServiceRelativePath("course")
 public interface CourseService extends RemoteService {
-    Map<Integer,String> getMockCompetencies();
-    Map<Integer,String> getMockSponsors();
-    Map<Integer,String> getMockTranslations();
+    Map<Integer,String> getCompetencies();
+    Map<Integer,String> getSponsors();
+    Map<Integer,String> getTranslations();
     String getLastUpdated();
 }

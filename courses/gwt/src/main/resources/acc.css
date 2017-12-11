@@ -4,3 +4,13 @@
     font-family: "Comic Sans MS";
     color: darkred;
 }
+
+.sponsors {
+    width: 50px;
+    /*padding-left: 45px;*/
+    /*padding-right: 20px;*/
+}
+
+.translational {
+    width: 250px;
+}

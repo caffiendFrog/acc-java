@@ -18,6 +18,11 @@
             <version>${gwt-version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.catalyst</groupId>
+            <artifactId>catalyst-common-services</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
